@@ -1700,9 +1700,9 @@
                       "width": 120,
                       "padding": [
                         8,
-                        4
+                        12
                       ],
-                      "justifyContent": "center",
+                      "justifyContent": "end",
                       "children": [
                         {
                           "type": "text",
@@ -1776,9 +1776,9 @@
                       "width": 120,
                       "padding": [
                         8,
-                        4
+                        12
                       ],
-                      "justifyContent": "center",
+                      "justifyContent": "end",
                       "children": [
                         {
                           "type": "text",
@@ -1852,9 +1852,9 @@
                       "width": 120,
                       "padding": [
                         8,
-                        4
+                        12
                       ],
-                      "justifyContent": "center",
+                      "justifyContent": "end",
                       "children": [
                         {
                           "type": "text",
@@ -1928,9 +1928,9 @@
                       "width": 120,
                       "padding": [
                         8,
-                        4
+                        12
                       ],
-                      "justifyContent": "center",
+                      "justifyContent": "end",
                       "children": [
                         {
                           "type": "text",
@@ -2679,6 +2679,7 @@
                         8,
                         4
                       ],
+                      "justifyContent": "end",
                       "children": [
                         {
                           "type": "text",
@@ -2799,6 +2800,7 @@
                         8,
                         4
                       ],
+                      "justifyContent": "end",
                       "children": [
                         {
                           "type": "text",
@@ -2919,6 +2921,7 @@
                         8,
                         4
                       ],
+                      "justifyContent": "end",
                       "children": [
                         {
                           "type": "text",
@@ -3668,6 +3671,86 @@
             },
             {
               "type": "frame",
+              "id": "Gpmzk",
+              "name": "filterRow",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "SOPKg",
+                  "name": "peerFilter",
+                  "fill": "$color-bg-muted",
+                  "cornerRadius": 6,
+                  "gap": 8,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "EzBdM",
+                      "name": "pfLabel",
+                      "fill": "$color-text-primary",
+                      "content": "All Peers",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "AWe45",
+                      "name": "pfIcon",
+                      "width": 14,
+                      "height": 14,
+                      "iconFontName": "chevron-down",
+                      "iconFontFamily": "lucide",
+                      "fill": "$color-text-muted"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "qB75m",
+                  "name": "sortCtrl",
+                  "fill": "$color-bg-muted",
+                  "cornerRadius": 6,
+                  "gap": 8,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "E9pkp",
+                      "name": "scLabel",
+                      "fill": "$color-text-primary",
+                      "content": "Sort: Newest",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "DVI3b",
+                      "name": "scIcon",
+                      "width": 14,
+                      "height": 14,
+                      "iconFontName": "chevron-down",
+                      "iconFontFamily": "lucide",
+                      "fill": "$color-text-muted"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
               "id": "pK1KP",
               "name": "gridCon",
               "width": "fill_container",
@@ -3707,17 +3790,6 @@
                           "fontFamily": "$font-sans",
                           "fontSize": 16,
                           "fontWeight": "600"
-                        },
-                        {
-                          "id": "WvNKK",
-                          "type": "ref",
-                          "ref": "yO7cE",
-                          "name": "c1b",
-                          "descendants": {
-                            "idr67": {
-                              "content": "High Confidence"
-                            }
-                          }
                         }
                       ]
                     },
@@ -3797,17 +3869,6 @@
                           "fontFamily": "$font-sans",
                           "fontSize": 16,
                           "fontWeight": "600"
-                        },
-                        {
-                          "id": "N4gUK2",
-                          "type": "ref",
-                          "ref": "nSiHf",
-                          "name": "c2b",
-                          "descendants": {
-                            "r7Meb": {
-                              "content": "Medium Confidence"
-                            }
-                          }
                         }
                       ]
                     },
@@ -3887,17 +3948,6 @@
                           "fontFamily": "$font-sans",
                           "fontSize": 16,
                           "fontWeight": "600"
-                        },
-                        {
-                          "id": "ypQGK",
-                          "type": "ref",
-                          "ref": "hDbOQ",
-                          "name": "c3b",
-                          "descendants": {
-                            "X1oWcZ": {
-                              "content": "Low Confidence"
-                            }
-                          }
                         }
                       ]
                     },

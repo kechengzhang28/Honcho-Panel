@@ -462,9 +462,9 @@ List conclusions (paginated, filterable).
     {
       "id": "con_abc",
       "content": "The user prefers visual explanations over text",
-      "observer": "honcho",
-      "observed": "user-123",
-      "confidence": 0.92,
+      "observer_id": "honcho",
+      "observed_id": "user-123",
+      "session_id": "ses_abc",
       "created_at": "2025-05-14T10:00:00Z"
     }
   ],
@@ -503,9 +503,8 @@ Semantic search over conclusions. Returns results ranked by relevance.
     {
       "id": "con_abc",
       "content": "The user prefers visual explanations over text",
-      "observer": "honcho",
-      "observed": "user-123",
-      "confidence": 0.92
+      "observer_id": "honcho",
+      "observed_id": "user-123"
     }
   ]
 }
