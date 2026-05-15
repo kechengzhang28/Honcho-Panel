@@ -48,14 +48,14 @@ npm install
 npm run dev            # Vite dev server with HMR at localhost:5173
 ```
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed environment configuration.
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for environment configuration and deployment options.
 
 ## Usage
 
 1. **Open the Panel** in your browser
-2. **Enter your Honcho API URL** on the setup page (e.g. `http://localhost:8110`)
-3. **Click Connect** — the Panel verifies the connection and takes you to the workspace list
-4. **Browse workspaces**, explore peers, view sessions, search conclusions, and chat with peers
+2. **Select or create a workspace** from the dropdown in the sidebar
+3. **Configure API URL** in Settings if needed (e.g. `http://localhost:8110`)
+4. **Browse** overview, peers, sessions, conclusions, and chat with peers
 
 The API URL is saved in your browser and persists across sessions. Change it anytime from the sidebar.
 
@@ -67,7 +67,7 @@ If you serve Honcho-Panel and the Honcho API on the same domain (e.g. nginx prox
 
 React 19 · TypeScript · Vite 6 · TanStack Query · shadcn/ui · Tailwind CSS v4 · Honcho SDK
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full architecture, route tree, design decisions, and deployment patterns.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for architecture design, [docs/TECH_STACK.md](docs/TECH_STACK.md) for tech choices, and [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment.
 
 ## License
 
