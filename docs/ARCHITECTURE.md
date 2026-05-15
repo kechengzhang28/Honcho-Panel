@@ -1,78 +1,155 @@
 # Honcho-Panel — Architecture
 
-> See also: [TECH_STACK.md](TECH_STACK.md) for tech stack and implementation,
-> [DEPLOYMENT.md](DEPLOYMENT.md) for environment config and deployment.
+> See also: [API.md](API.md) for endpoint reference,
+> [STATE_MANAGEMENT.md](STATE_MANAGEMENT.md) for TanStack Query patterns and error handling,
+> [UI_PATTERNS.md](UI_PATTERNS.md) for loading / empty / error states,
+> [DEPLOYMENT.md](DEPLOYMENT.md) for deployment and configuration,
+> [I18N.md](I18N.md) for internationalization.
 
-## Scope
+## 1. Overview
 
-Honcho-Panel is a management UI for self-hosted [Honcho](https://github.com/plastic-labs/honcho) API servers. It runs as a pure static SPA.
+Honcho-Panel is a management UI for self-hosted [Honcho](https://github.com/plastic-labs/honcho) API servers. It runs as a pure static SPA — no backend, no server runtime.
 
 ```
 Honcho-Panel (SPA)  ──HTTP──→  Honcho API Server (self-hosted)
 ```
 
-**Assumption: self-hosted Honcho with auth disabled by default (`AUTH_USE_AUTH=false`).**
+Assumes auth disabled by default (`AUTH_USE_AUTH=false`). Zero configuration for reverse proxy setups; users only need to configure the API URL when Honcho runs on a different host.
 
-**Zero configuration for common setups.** Panel auto-detects the API URL via same-origin reverse proxy; users only need to configure it when the Honcho server runs on a different host.
+## 2. Tech Stack
 
-## Architecture
+| Layer | Choice | Rationale |
+|---|---|---|
+| Language | TypeScript strict | Type safety baseline |
+| Framework | React 19 | Largest ecosystem, most familiar to self-hosted users |
+| Build | Vite 6 | Fast HMR, zero-config for SPAs |
+| Routing | React Router v7 | Nested routes match Workspace → Peer → Session hierarchy |
+| Server state | TanStack Query v5 | Caching, dedup, retry, optimistic updates |
+| HTTP client | `@honcho-ai/sdk` | Official Honcho TypeScript SDK |
+| UI | shadcn/ui + Tailwind CSS v4 | Copy-paste components, no black-box deps |
+| Forms | React Hook Form + Zod | Declarative validation, type inference |
+| Lint / Format | Biome | Single tool replacing ESLint + Prettier |
+| Test | Vitest + React Testing Library | Same Vite ecosystem, zero extra config |
+| CI | GitHub Actions | Free, community standard |
+| Deploy | Static files + Docker | No server runtime; `docker compose up` |
+
+## 3. Architecture
 
 ### Data Flow
 
 ```
 React Component → TanStack Query → Honcho SDK → Honcho API (runtime URL)
-                    ↑↓ Cache layer
+                    ↑↓  Cache layer
 ```
 
-The API URL is resolved at runtime via a configurable fallback chain. Once configured, it is persisted in `localStorage` and survives page reloads.
+The API URL is resolved at runtime and persisted in `localStorage`. Once configured, it survives page reloads and works across tabs. Details in §5.
 
-**No global store.** The current Workspace / Peer / Session identity lives in URL path params:
+### Component Layers
 
 ```
-/workspaces/:workspaceId              → workspaceId in URL
-/workspaces/:workspaceId/peers/:peerId → peerId in URL
+Page                    → Route binding, no business logic
+Feature + hooks         → Business logic + TanStack Query
+UI (shadcn) + Shared    → Pure presentation
 ```
 
-URL is the state source — native browser back/forward, bookmarks, and link sharing work for free.
+Features share types via `src/types/` only. Cross-feature imports of hooks or components are forbidden.
+
+### Project Structure
+
+```
+src/
+├── main.tsx
+├── App.tsx
+├── router.tsx
+├── index.css                  # Tailwind
+├── components/
+│   ├── ui/                    # shadcn/ui primitives
+│   ├── layout/                # Shell, Sidebar
+│   └── shared/                # DataTable, EmptyState, ErrorState, Skeleton, ErrorBoundary
+├── features/
+│   ├── settings/
+│   ├── workspaces/
+│   ├── peers/
+│   ├── sessions/
+│   └── conclusions/
+├── lib/
+│   ├── honcho.ts              # Honcho SDK singleton
+│   └── utils.ts               # getErrorMessage, etc.
+└── types/
+    └── honcho.ts
+```
+
+## 4. Routing
+
+**No global store.** Current resource identity lives in URL path params:
+
+```
+/workspaces/:wid              → workspaceId
+/workspaces/:wid/peers/:pid   → peerId
+```
+
+URL is the state source — back/forward, bookmarks, and link sharing work for free.
 
 ### Route Tree
 
 ```
-/workspaces/:wid?tab=overview             → Overview (queue status, recent sessions)
-/workspaces/:wid?tab=peers                → Peer list + search
-/workspaces/:wid/peers/:pid/representation → Peer representation
-/workspaces/:wid/peers/:pid/card           → Peer card
-/workspaces/:wid/peers/:pid/chat           → Peer chat
-/workspaces/:wid?tab=sessions             → Session list
-/workspaces/:wid/sessions/:sid            → Message timeline
-/workspaces/:wid?tab=conclusions           → Conclusion list + semantic search
-/settings                                  → API URL configuration + about
+/workspaces/:wid?tab=overview        → Overview (queue status, recent sessions)
+/workspaces/:wid?tab=peers           → Peer list + search
+/workspaces/:wid/peers/:pid/...      → Peer detail (representation / card / chat)
+/workspaces/:wid?tab=sessions        → Session list
+/workspaces/:wid/sessions/:sid       → Message timeline
+/workspaces/:wid?tab=conclusions     → Conclusion list + semantic search
+/settings                            → API URL configuration + about
 ```
 
-### Route → Feature Mapping
+Endpoint assignments are maintained in [API.md §10 Panel Usage Map](./API.md#10-panel-usage-map).
 
-Endpoint details are maintained in [API.md](./API.md); this table maps routes to API sections only.
+## 5. Honcho Client
 
-| Route | Feature | API sections |
-|---|---|---|
-| `/workspaces/:wid?tab=overview` | Overview | §4 Queue Status + §6 Sessions (list) |
-| `/workspaces/:wid?tab=peers` | PeerList | §5 Peers (list) |
-| `/workspaces/:wid/peers/:pid/representation` | PeerRepr | §5 Peer Representation |
-| `/workspaces/:wid/peers/:pid/card` | PeerCard | §5 Peer Card |
-| `/workspaces/:wid/peers/:pid/chat` | PeerChat | §5 Peer Chat |
-| `/workspaces/:wid?tab=sessions` | SessionList | §6 Sessions (list) |
-| `/workspaces/:wid/sessions/:sid` | SessionView | §6 Session Context + §7 Messages (list) |
-| `/workspaces/:wid?tab=conclusions` | ConclusionList | §8 Conclusions (list + query) |
-| `/settings` | SettingsPage | §3 Health |
+Lazy singleton — created on first use, reconfigurable at runtime. Lives in `src/lib/honcho.ts`.
 
-## Key Design Decisions
+```ts
+import { Honcho } from "@honcho-ai/sdk";
+
+function getApiUrl(): string {
+  const stored = localStorage.getItem("honcho_api_url");
+  if (stored) return stored;
+  return "http://localhost:8000";       // Self-hosted default
+}
+
+let _honcho: Honcho | null = null;
+
+export function getHoncho(): Honcho {
+  if (!_honcho) {
+    _honcho = new Honcho({ baseUrl: getApiUrl() });
+  }
+  return _honcho;
+}
+
+export function configureApiUrl(url: string): void {
+  localStorage.setItem("honcho_api_url", url);
+  _honcho = new Honcho({ baseUrl: url });
+}
+
+export async function testConnection(url: string): Promise<boolean> {
+  try {
+    const res = await fetch(`${url}/health`);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+```
+
+Fallback chain: `localStorage` → same-origin auto-detect → `localhost:8000`. The `testConnection` function is called from the Settings page to validate before persisting.
+
+## 6. Design Decisions
 
 | Decision | Choice | Rationale |
 |---|---|---|
-| API URL | Runtime (localStorage) | One build works everywhere; no rebuild for different Honcho instances |
-| First-run setup | `/settings` page with API URL input | Zero friction; user types a URL, clicks test, done |
-| Fallback chain | localStorage → same-origin → default | Reverse proxy = zero config; localhost = sensible default |
-| No auth | Skip API key management (auth disabled by default) | Self-hosted Honcho in trusted networks |
+| API URL | Runtime (`localStorage`) | One build works for any Honcho instance |
+| First-run setup | `/settings` page | Type a URL, click test — zero friction |
+| Auth | Disabled by default | Self-hosted Honcho in trusted networks |
 | Static deploy | `npx vite build` → any HTTP server | Zero runtime dependencies |
-| Docker deploy | Static files served by nginx in container | One `docker compose up`, ready to use |
-| SPA routing | React Router BrowserRouter | Server must redirect to index.html |
+| Docker | Static files served by nginx | One `docker compose up`, ready to use |
+| SPA routing | React Router (BrowserRouter) | Server redirects to `index.html` |

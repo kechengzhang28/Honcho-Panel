@@ -1,7 +1,6 @@
 # Honcho-Panel — Deployment & Configuration
 
-> See also: [ARCHITECTURE.md](ARCHITECTURE.md) for design decisions and route design,
-> [TECH_STACK.md](TECH_STACK.md) for tech stack and project structure.
+> See also: [ARCHITECTURE.md](ARCHITECTURE.md) for architecture, tech stack, and design decisions.
 
 ## Environment Configuration
 
@@ -16,7 +15,7 @@ VITE_ALLOWED_HOSTS=<your-hostname-1>,<your-hostname-2>
 
 `vite.config.ts` reads `VITE_DEV_PORT` and `VITE_ALLOWED_HOSTS` from env, falls back to safe defaults when unset. The config file itself is safe to commit. Each developer maintains their own `.env.local`.
 
-**The Honcho API URL is NOT a compile-time constant.** It is configured at runtime via the Panel's Settings page (see [TECH_STACK.md](TECH_STACK.md)).
+**The Honcho API URL is NOT a compile-time constant.** It is configured at runtime via the Panel's Settings page (see [ARCHITECTURE.md §5](./ARCHITECTURE.md#5-honcho-client)).
 
 ## Deployment
 

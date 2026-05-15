@@ -67,7 +67,7 @@ If you serve Honcho-Panel and the Honcho API on the same domain (e.g. nginx prox
 
 React 19 · TypeScript · Vite 6 · TanStack Query · shadcn/ui · Tailwind CSS v4 · Honcho SDK
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for architecture design, [docs/TECH_STACK.md](docs/TECH_STACK.md) for tech choices, and [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for architecture and tech stack, [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment.
 
 ## License
 
