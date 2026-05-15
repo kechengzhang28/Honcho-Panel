@@ -1,6 +1,7 @@
 # Honcho-Panel — Architecture
 
-> See also: [API.md](API.md) for endpoint reference,
+> See also: [DEVELOPMENT.md](DEVELOPMENT.md) for environment setup and project scaffold,
+> [API.md](API.md) for endpoint reference,
 > [STATE_MANAGEMENT.md](STATE_MANAGEMENT.md) for TanStack Query patterns and error handling,
 > [UI_PATTERNS.md](UI_PATTERNS.md) for loading / empty / error states,
 > [DEPLOYMENT.md](DEPLOYMENT.md) for deployment and configuration,
