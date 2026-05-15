@@ -46,7 +46,7 @@ npx serve dist -l 8080
 ```
 nginx / caddy:
   /      → Honcho-Panel static files
-  /api   → Honcho API Server :8110
+  /api   → Honcho API Server :8000
 ```
 
 When Panel and API share the same origin, Panel auto-detects the URL — no setup page needed.

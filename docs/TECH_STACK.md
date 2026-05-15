@@ -72,14 +72,14 @@ function getApiUrl(): string {
   //    return window.location.origin;
 
   // 3. Default fallback
-  return "http://localhost:8110";
+  return "http://localhost:8000";
 }
 
 let _honcho: Honcho | null = null;
 
 export function getHoncho(): Honcho {
   if (!_honcho) {
-    _honcho = new Honcho({ baseURL: getApiUrl() });
+    _honcho = new Honcho({ baseUrl: getApiUrl() });
   }
   return _honcho;
 }
@@ -87,7 +87,7 @@ export function getHoncho(): Honcho {
 // Called from Settings page: validate & persist
 export function configureApiUrl(url: string): void {
   localStorage.setItem("honcho_api_url", url);
-  _honcho = new Honcho({ baseURL: url });
+  _honcho = new Honcho({ baseUrl: url });
 }
 
 // Test if a URL points to a live Honcho server
