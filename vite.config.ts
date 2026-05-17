@@ -12,6 +12,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss(), tsconfigPaths()],
+    define: {
+      // @honcho-ai/sdk 在浏览器中引用 process.env，需要 polyfill
+      "process.env": JSON.stringify({}),
+    },
     server: {
       port: 5173,
       host: true,
