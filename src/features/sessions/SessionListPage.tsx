@@ -69,24 +69,24 @@ export function SessionListPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Session ID</TableHead>
-                <TableHead>{tc("table.column.status")}</TableHead>
-                <TableHead>{tc("table.column.created")}</TableHead>
-                <TableHead className="w-24">{tc("table.column.actions")}</TableHead>
+                <TableHead className="w-36">{tc("table.column.created")}</TableHead>
+                <TableHead className="w-24 text-center">{tc("table.column.status")}</TableHead>
+                <TableHead className="w-24 text-center">{tc("table.column.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map((s) => (
                 <TableRow key={s.id}>
                   <TableCell className="font-mono text-sm">{s.id}</TableCell>
-                  <TableCell>
+                  <TableCell className="w-36 text-sm text-[var(--color-text-secondary)]">
+                    {new Date(s.createdAt ?? "").toLocaleDateString()}
+                  </TableCell>
+                  <TableCell className="text-center">
                     <Badge variant={s.isActive ?? false ? "success" : "secondary"}>
                       {s.isActive ?? false ? tc("status.active") : tc("status.inactive")}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-sm text-[var(--color-text-secondary)]">
-                    {new Date(s.createdAt ?? "").toLocaleString()}
-                  </TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <div className="flex items-center gap-1">
                       <Button
                         variant="ghost"
