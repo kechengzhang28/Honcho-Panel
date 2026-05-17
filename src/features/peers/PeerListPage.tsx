@@ -71,18 +71,18 @@ export function PeerListPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Peer ID</TableHead>
-                <TableHead>{tc("table.column.created")}</TableHead>
-                <TableHead className="w-20">{tc("table.column.actions")}</TableHead>
+                <TableHead className="pl-12">{tc("table.column.created")}</TableHead>
+                <TableHead className="w-20 text-center">{tc("table.column.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map((peer) => (
                 <TableRow key={peer.id}>
                   <TableCell className="font-mono text-sm">{peer.id}</TableCell>
-                  <TableCell className="text-sm text-[var(--color-text-secondary)]">
+                  <TableCell className="pl-12 text-sm text-[var(--color-text-secondary)]">
                     {new Date(peer.createdAt ?? "").toLocaleString()}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <Button
                       variant="ghost"
                       size="sm"

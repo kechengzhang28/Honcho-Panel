@@ -39,7 +39,7 @@ export function Sidebar() {
   const prevWid = useRef(wid);
   const { t } = useTranslation("common");
 
-  const currentTab = searchParams.get("tab") ?? "overview";
+  const currentTab = searchParams.get("tab") ?? location.pathname.match(/\/(peers|sessions|conclusions)\//)?.[1] ?? "overview";
   const isWorkspaceRoute = location.pathname.startsWith("/workspaces");
 
   const { data: workspaces, isLoading: loadingWorkspaces } = useWorkspaceList();
