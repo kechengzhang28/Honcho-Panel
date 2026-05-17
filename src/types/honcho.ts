@@ -14,10 +14,10 @@ export interface Workspace {
 }
 
 export interface QueueStatus {
-  total_work_units: number;
-  completed_work_units: number;
-  in_progress_work_units: number;
-  pending_work_units: number;
+  totalWorkUnits: number;
+  completedWorkUnits: number;
+  inProgressWorkUnits: number;
+  pendingWorkUnits: number;
 }
 
 export interface Peer {

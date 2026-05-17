@@ -10,19 +10,22 @@ let _honcho: Honcho | null = null;
 
 export function getHoncho(): Honcho {
   if (!_honcho) {
-    _honcho = new Honcho({ baseURL: getApiUrl() });
+    const baseURL = import.meta.env.DEV ? "" : getApiUrl();
+    _honcho = new Honcho({ baseURL });
   }
   return _honcho;
 }
 
 export function configureApiUrl(url: string): void {
   localStorage.setItem("honcho_api_url", url);
-  _honcho = new Honcho({ baseURL: url });
+  const baseURL = import.meta.env.DEV ? "" : url;
+  _honcho = new Honcho({ baseURL });
 }
 
-export async function testConnection(url: string): Promise<boolean> {
+export async function testConnection(_url: string): Promise<boolean> {
   try {
-    const res = await fetch(`${url}/health`);
+    const healthUrl = import.meta.env.DEV ? "/health" : `${_url}/health`;
+    const res = await fetch(healthUrl);
     return res.ok;
   } catch {
     return false;
