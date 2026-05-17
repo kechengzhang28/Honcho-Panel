@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router";
 import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import {
   LayoutDashboard,
   Users,
@@ -24,10 +25,10 @@ import {
 import { useWorkspaceList } from "@/features/workspaces/hooks";
 
 const navItems = [
-  { tab: "overview", icon: LayoutDashboard, label: "Overview" },
-  { tab: "peers", icon: Users, label: "Peers" },
-  { tab: "sessions", icon: Calendar, label: "Sessions" },
-  { tab: "conclusions", icon: Lightbulb, label: "Conclusions" },
+  { tab: "overview", icon: LayoutDashboard, key: "overview" as const },
+  { tab: "peers", icon: Users, key: "peers" as const },
+  { tab: "sessions", icon: Calendar, key: "sessions" as const },
+  { tab: "conclusions", icon: Lightbulb, key: "conclusions" as const },
 ];
 
 export function Sidebar() {
@@ -37,6 +38,7 @@ export function Sidebar() {
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const prevWid = useRef(wid);
+  const { t } = useTranslation("common");
 
   const currentTab = searchParams.get("tab") ?? "overview";
   const isWorkspaceRoute = location.pathname.startsWith("/workspaces");
@@ -56,7 +58,7 @@ export function Sidebar() {
     <aside className="flex w-60 flex-col border-r border-[var(--color-border)] bg-[var(--color-bg)]">
       <div className="flex h-14 items-center gap-2 px-4">
         <Bot className="h-6 w-6 text-[var(--color-primary)]" />
-        <span className="text-lg font-semibold text-[var(--color-text-primary)]">Honcho Panel</span>
+        <span className="text-lg font-semibold text-[var(--color-text-primary)]">{t("sidebar.brand")}</span>
       </div>
 
       <Separator />
@@ -93,7 +95,7 @@ export function Sidebar() {
                 </DropdownMenuItem>
               ))
             ) : (
-              <DropdownMenuItem disabled>No workspaces</DropdownMenuItem>
+              <DropdownMenuItem disabled>{t("empty.noWorkspaces")}</DropdownMenuItem>
             )}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -118,7 +120,7 @@ export function Sidebar() {
                 )}
               >
                 <item.icon className="h-5 w-5" />
-                {item.label}
+                {t(`sidebar.${item.key}`)}
               </button>
             );
           })}
@@ -139,7 +141,7 @@ export function Sidebar() {
           )}
         >
           <Settings className="h-5 w-5" />
-          Settings
+          {t("sidebar.settings")}
         </button>
       </div>
     </aside>

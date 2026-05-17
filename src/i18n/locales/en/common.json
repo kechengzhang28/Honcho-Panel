@@ -1,0 +1,50 @@
+{
+  "sidebar": {
+    "brand": "Honcho Panel",
+    "overview": "Overview",
+    "peers": "Peers",
+    "sessions": "Sessions",
+    "conclusions": "Conclusions",
+    "settings": "Settings"
+  },
+  "button": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "create": "Create",
+    "send": "Send",
+    "test": "Test Connection",
+    "view": "View",
+    "previous": "Previous",
+    "next": "Next",
+    "clear": "Clear",
+    "search": "Search",
+    "retry": "Try again"
+  },
+  "table": {
+    "column": {
+      "name": "Name",
+      "created": "Created",
+      "actions": "Actions",
+      "status": "Status"
+    }
+  },
+  "status": {
+    "connected": "Connected to Honcho",
+    "disconnected": "Disconnected",
+    "active": "Active",
+    "inactive": "Inactive",
+    "loading": "Loading..."
+  },
+  "empty": {
+    "noWorkspaces": "No workspaces"
+  },
+  "error": {
+    "somethingWentWrong": "Something went wrong",
+    "unexpectedError": "An unexpected error occurred. Please try again.",
+    "cannotReach": "Cannot reach Honcho server. Check the API URL in Settings."
+  },
+  "pagination": {
+    "pageOf": "Page {{page}} of {{total}}"
+  }
+}

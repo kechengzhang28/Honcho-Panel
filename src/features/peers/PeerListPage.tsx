@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import { SearchX, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,8 @@ export function PeerListPage() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const { t } = useTranslation("peers");
+  const { t: tc } = useTranslation("common");
 
   const { data, isLoading, isError, error, refetch } = usePeerList(wid, page);
 
@@ -34,16 +37,16 @@ export function PeerListPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">Peers</h1>
+        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{t("title")}</h1>
         <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          Workspace: {wid}
+          {t("workspace", { wid })}
         </p>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="w-72">
           <Input
-            placeholder="Search peers..."
+            placeholder={t("search")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -60,15 +63,11 @@ export function PeerListPage() {
         search ? (
           <EmptyState
             icon={SearchX}
-            title={`No peers match "${search}"`}
-            description="Try a different search term."
+            title={t("noSearchResults", { query: search })}
+            description={t("noSearchResultsDesc")}
           />
         ) : (
-          <EmptyState
-            icon={Users}
-            title="No peers found"
-            description="Peers are created automatically when they send their first message."
-          />
+          <EmptyState icon={Users} title={t("noPeers")} description={t("noPeersDesc")} />
         )
       ) : (
         <>
@@ -76,8 +75,8 @@ export function PeerListPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Peer ID</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead className="w-20">Actions</TableHead>
+                <TableHead>{tc("table.column.created")}</TableHead>
+                <TableHead className="w-20">{tc("table.column.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -93,7 +92,7 @@ export function PeerListPage() {
                       size="sm"
                       onClick={() => navigate(`/workspaces/${wid}/peers/${peer.id}`)}
                     >
-                      View
+                      {tc("button.view")}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -104,7 +103,7 @@ export function PeerListPage() {
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
               <p className="text-sm text-[var(--color-text-secondary)]">
-                Page {page} of {totalPages}
+                {tc("pagination.pageOf", { page, total: totalPages })}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -113,7 +112,7 @@ export function PeerListPage() {
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}
                 >
-                  Previous
+                  {tc("button.previous")}
                 </Button>
                 <Button
                   variant="outline"
@@ -121,7 +120,7 @@ export function PeerListPage() {
                   disabled={page >= totalPages}
                   onClick={() => setPage((p) => p + 1)}
                 >
-                  Next
+                  {tc("button.next")}
                 </Button>
               </div>
             </div>

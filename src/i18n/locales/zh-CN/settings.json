@@ -1,0 +1,15 @@
+{
+  "title": "设置",
+  "apiTitle": "Honcho API 配置",
+  "apiDesc": "配置自托管 Honcho 服务器的连接。",
+  "apiUrlLabel": "API URL",
+  "apiUrlPlaceholder": "http://localhost:8000",
+  "testConnection": "测试连接",
+  "connected": "已连接到 Honcho",
+  "disconnected": "请检查 Honcho 服务器是否在 {{url}} 运行",
+  "languageTitle": "语言",
+  "languageDesc": "选择界面显示语言。",
+  "aboutTitle": "关于",
+  "aboutDesc": "Honcho Panel — 自托管 Honcho API 服务器的管理界面。",
+  "version": "版本 {{version}}"
+}

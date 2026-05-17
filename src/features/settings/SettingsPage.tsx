@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Loader2, Globe, ChevronDown, Check, Link2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -22,6 +24,8 @@ const apiUrlSchema = z.object({
 type ApiUrlForm = z.infer<typeof apiUrlSchema>;
 
 export function SettingsPage() {
+  const { t } = useTranslation("settings");
+  const { t: tc } = useTranslation("common");
   const { apiUrl, saveApiUrl } = useApiUrl();
   const { isTesting, isConnected, test, reset } = useConnectionTest();
 
@@ -53,26 +57,22 @@ export function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <h1 className="text-[28px] font-bold text-[var(--color-text-primary)]">Settings</h1>
+      <h1 className="text-[28px] font-bold text-[var(--color-text-primary)]">{t("title")}</h1>
 
       <div className="rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-6 space-y-5">
         <div>
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
-            Honcho API Configuration
-          </h2>
-          <p className="text-sm text-[var(--color-text-secondary)]">
-            Configure the connection to your self-hosted Honcho server.
-          </p>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("apiTitle")}</h2>
+          <p className="text-sm text-[var(--color-text-secondary)]">{t("apiDesc")}</p>
         </div>
 
         <form onSubmit={handleSubmit(onSave)} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-[var(--color-text-primary)]">API URL</label>
+            <label className="text-sm font-medium text-[var(--color-text-primary)]">{t("apiUrlLabel")}</label>
             <div className="relative">
               <Link2 className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-muted)]" />
               <Input
                 {...register("url")}
-                placeholder="http://localhost:8000"
+                placeholder={t("apiUrlPlaceholder")}
                 className="pl-10 font-mono text-sm"
               />
             </div>
@@ -91,8 +91,8 @@ export function SettingsPage() {
               />
               <span className="text-sm text-[var(--color-text-secondary)]">
                 {isConnected
-                  ? "Connected to Honcho"
-                  : `Check that your Honcho server is running at ${currentUrl}`}
+                  ? t("connected")
+                  : t("disconnected", { url: currentUrl })}
               </span>
             </div>
           )}
@@ -105,9 +105,9 @@ export function SettingsPage() {
               disabled={isTesting}
             >
               {isTesting && <Loader2 className="h-4 w-4 animate-spin" />}
-              Test Connection
+              {tc("button.test")}
             </Button>
-            <Button type="submit">Save</Button>
+            <Button type="submit">{tc("button.save")}</Button>
           </div>
         </form>
       </div>
@@ -116,10 +116,8 @@ export function SettingsPage() {
 
       <div className="rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-6 space-y-5">
         <div>
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Language</h2>
-          <p className="text-sm text-[var(--color-text-secondary)]">
-            Choose your preferred language for the interface.
-          </p>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("languageTitle")}</h2>
+          <p className="text-sm text-[var(--color-text-secondary)]">{t("languageDesc")}</p>
         </div>
         <LanguageSwitcher />
       </div>
@@ -127,15 +125,12 @@ export function SettingsPage() {
       <Separator />
 
       <div className="rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-6 space-y-3">
-        <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">About</h2>
+        <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("aboutTitle")}</h2>
         <p className="text-sm text-[var(--color-text-secondary)]">
-          <strong>Honcho Panel</strong> — Management UI for self-hosted Honcho API servers.
+          <strong>Honcho Panel</strong> — {t("aboutDesc").replace("Honcho Panel — ", "")}
         </p>
         <p className="text-sm text-[var(--color-text-secondary)]">
-          Version{" "}
-          <code className="rounded bg-[var(--color-bg-muted)] px-1.5 py-0.5 font-mono text-xs">
-            0.1.0
-          </code>
+          {t("version", { version: "0.1.0" })}
         </p>
       </div>
     </div>
@@ -148,15 +143,12 @@ const languages = [
 ];
 
 function LanguageSwitcher() {
-  const [current, setCurrent] = useState(() => {
-    return localStorage.getItem("i18nextLng") || "en";
-  });
+  const current = i18n.language;
 
-  const activeLang = languages.find((l) => l.code === current) ?? languages[0];
+  const activeLang = languages.find((l) => l.code === (current === "zh-CN" ? "zh-CN" : "en")) ?? languages[0];
 
   const handleChange = (code: string) => {
-    setCurrent(code);
-    localStorage.setItem("i18nextLng", code);
+    i18n.changeLanguage(code);
   };
 
   return (

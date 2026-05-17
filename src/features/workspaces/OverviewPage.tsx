@@ -1,4 +1,5 @@
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import { Activity, CheckCircle2, Clock, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -16,13 +17,14 @@ import { useQueueStatus } from "./hooks";
 
 export function OverviewPage() {
   const { wid = "default" } = useParams();
+  const { t } = useTranslation("overview");
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">Overview</h1>
+        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{t("title")}</h1>
         <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          Workspace: {wid}
+          {t("workspace", { wid })}
         </p>
       </div>
 
@@ -34,6 +36,7 @@ export function OverviewPage() {
 
 function QueueStats({ workspaceId }: { workspaceId: string }) {
   const { data: queue, isLoading, isError, error, refetch } = useQueueStatus(workspaceId);
+  const { t } = useTranslation("overview");
 
   if (isLoading) {
     return (
@@ -46,16 +49,16 @@ function QueueStats({ workspaceId }: { workspaceId: string }) {
   }
 
   if (isError) {
-    return <ErrorState title="Failed to load queue status" error={error} onRetry={() => refetch()} />;
+    return <ErrorState title={t("queueFailed")} error={error} onRetry={() => refetch()} />;
   }
 
   if (!queue) return null;
 
   const stats = [
-    { label: "Total", value: queue.totalWorkUnits, icon: Activity },
-    { label: "Completed", value: queue.completedWorkUnits, icon: CheckCircle2 },
-    { label: "In Progress", value: queue.inProgressWorkUnits, icon: Loader2 },
-    { label: "Pending", value: queue.pendingWorkUnits, icon: Clock },
+    { label: t("stats.total"), value: queue.totalWorkUnits, icon: Activity },
+    { label: t("stats.completed"), value: queue.completedWorkUnits, icon: CheckCircle2 },
+    { label: t("stats.inProgress"), value: queue.inProgressWorkUnits, icon: Loader2 },
+    { label: t("stats.pending"), value: queue.pendingWorkUnits, icon: Clock },
   ];
 
   return (
@@ -77,36 +80,32 @@ function QueueStats({ workspaceId }: { workspaceId: string }) {
   );
 }
 
-function RecentSessions({ workspaceId }: { workspaceId: string }) {
+function RecentSessions({ workspaceId: _workspaceId }: { workspaceId: string }) {
+  const { t } = useTranslation("overview");
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent Sessions</CardTitle>
+        <CardTitle>{t("recentSessions")}</CardTitle>
       </CardHeader>
       <CardContent>
-        <SessionsTable workspaceId={workspaceId} />
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Session</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Created</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell colSpan={3}>
+                <EmptyState icon={Clock} title={t("noSessions")} description={t("noSessionsDesc")} />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
-  );
-}
-
-function SessionsTable({ workspaceId: _workspaceId }: { workspaceId: string }) {
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Session</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Created</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell colSpan={3}>
-            <EmptyState icon={Clock} title="No sessions yet" description="Sessions will appear here once peers start interacting." />
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
   );
 }

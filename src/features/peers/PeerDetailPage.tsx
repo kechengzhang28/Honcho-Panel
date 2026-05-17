@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import { FileText, IdCard, MessageCircle, Clock, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -13,29 +14,30 @@ import { usePeerRepr, usePeerCard, usePeerChat } from "./hooks";
 
 export function PeerDetailPage() {
   const { wid = "default", pid = "" } = useParams();
+  const { t } = useTranslation("peers");
 
   return (
     <div className="space-y-4">
-      <BackLink href={`/workspaces/${wid}?tab=peers`}>Back to Peers</BackLink>
+      <BackLink href={`/workspaces/${wid}?tab=peers`}>{t("backToList")}</BackLink>
 
       <div>
         <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{pid}</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Peer Detail</p>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("detail")}</p>
       </div>
 
       <Tabs defaultValue="representation">
         <TabsList>
           <TabsTrigger value="representation">
             <FileText className="h-4 w-4 mr-2" />
-            Representation
+            {t("tabs.representation")}
           </TabsTrigger>
           <TabsTrigger value="card">
             <IdCard className="h-4 w-4 mr-2" />
-            Card
+            {t("tabs.card")}
           </TabsTrigger>
           <TabsTrigger value="chat">
             <MessageCircle className="h-4 w-4 mr-2" />
-            Chat
+            {t("tabs.chat")}
           </TabsTrigger>
         </TabsList>
 
@@ -53,14 +55,9 @@ export function PeerDetailPage() {
   );
 }
 
-function RepresentationTab({
-  workspaceId,
-  peerId,
-}: {
-  workspaceId: string;
-  peerId: string;
-}) {
+function RepresentationTab({ workspaceId, peerId }: { workspaceId: string; peerId: string }) {
   const { data: repr, isLoading, isError, error, refetch } = usePeerRepr(workspaceId, peerId);
+  const { t } = useTranslation("peers");
 
   if (isLoading) return <TextSkeleton lines={6} />;
   if (isError) return <ErrorState error={error} onRetry={() => refetch()} />;
@@ -68,8 +65,8 @@ function RepresentationTab({
     return (
       <EmptyState
         icon={FileText}
-        title="No representation yet"
-        description="The deriver processes messages in the background."
+        title={t("representation.noRepresentation")}
+        description={t("representation.noRepresentationDesc")}
       />
     );
   }
@@ -83,14 +80,9 @@ function RepresentationTab({
   );
 }
 
-function CardTab({
-  workspaceId,
-  peerId,
-}: {
-  workspaceId: string;
-  peerId: string;
-}) {
+function CardTab({ workspaceId, peerId }: { workspaceId: string; peerId: string }) {
   const { data: card, isLoading, isError, error, refetch } = usePeerCard(workspaceId, peerId);
+  const { t } = useTranslation("peers");
 
   if (isLoading) return <TextSkeleton lines={5} />;
   if (isError) return <ErrorState error={error} onRetry={() => refetch()} />;
@@ -98,8 +90,8 @@ function CardTab({
     return (
       <EmptyState
         icon={IdCard}
-        title="No peer card yet"
-        description="Peer cards are generated automatically by the deriver."
+        title={t("card.noCard")}
+        description={t("card.noCardDesc")}
       />
     );
   }
@@ -118,15 +110,11 @@ function CardTab({
   );
 }
 
-function ChatTab({
-  workspaceId,
-  peerId,
-}: {
-  workspaceId: string;
-  peerId: string;
-}) {
+function ChatTab({ workspaceId, peerId }: { workspaceId: string; peerId: string }) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string }[]>([]);
+  const { t } = useTranslation("peers");
+  const { t: tc } = useTranslation("common");
 
   const chatMutation = usePeerChat(workspaceId, peerId);
 
@@ -147,8 +135,8 @@ function ChatTab({
       {messages.length === 0 ? (
         <EmptyState
           icon={MessageCircle}
-          title="Ask a question about this peer"
-          description="Honcho will search its memory and provide reasoning."
+          title={t("chat.emptyTitle")}
+          description={t("chat.emptyDesc")}
         />
       ) : (
         <div className="space-y-3">
@@ -163,9 +151,9 @@ function ChatTab({
       {chatMutation.isError && (
         <ErrorState
           icon={Clock}
-          title="Reasoning is taking longer than expected"
+          title={t("chat.reasoningTimeout")}
           error={chatMutation.error}
-          description="The deriver may be processing a large backlog."
+          description={t("chat.reasoningTimeoutDesc")}
         />
       )}
 
@@ -174,12 +162,12 @@ function ChatTab({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Ask a question about this peer..."
+          placeholder={t("chat.placeholder")}
           disabled={chatMutation.isPending}
         />
         <Button onClick={handleSend} disabled={chatMutation.isPending || !input.trim()}>
           {chatMutation.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-          Send
+          {tc("button.send")}
         </Button>
       </div>
     </div>

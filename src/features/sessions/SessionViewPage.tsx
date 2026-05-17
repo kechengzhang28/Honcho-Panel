@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import { FileQuestion, Loader2, MessageSquare } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,14 +14,10 @@ import { useSessionContext, useSendMessage } from "./hooks";
 
 export function SessionViewPage() {
   const { wid = "default", sid = "" } = useParams();
+  const { t } = useTranslation("sessions");
+  const { t: tc } = useTranslation("common");
 
-  const {
-    data: context,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useSessionContext(wid, sid);
+  const { data: context, isLoading, isError, error, refetch } = useSessionContext(wid, sid);
 
   const [input, setInput] = useState("");
   const [localMessages, setLocalMessages] = useState<
@@ -28,7 +25,7 @@ export function SessionViewPage() {
   >([]);
   const sendMutation = useSendMessage(wid, sid);
 
-  const displayMessages = localMessages.length > 0 ? localMessages : context?.messages ?? [];
+  const displayMessages = localMessages.length > 0 ? localMessages : context?.messages?.map(m => ({ peerId: m.peerId, content: m.content })) ?? [];
   const firstPeerId = context?.messages?.[0]?.peerId ?? "user";
 
   const handleSend = async () => {
@@ -45,8 +42,8 @@ export function SessionViewPage() {
     return (
       <ErrorState
         icon={FileQuestion}
-        title="Session not found"
-        description="It may have been deleted."
+        title={t("notFound")}
+        description={t("notFoundDesc")}
         error={error}
         onRetry={() => refetch()}
       />
@@ -55,17 +52,17 @@ export function SessionViewPage() {
 
   return (
     <div className="space-y-4">
-      <BackLink href={`/workspaces/${wid}?tab=sessions`}>Back to Sessions</BackLink>
+      <BackLink href={`/workspaces/${wid}?tab=sessions`}>{t("backToList")}</BackLink>
 
       <div>
         <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{sid}</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Session View</p>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("view")}</p>
       </div>
 
       {context?.summary && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Summary</CardTitle>
+            <CardTitle className="text-base">{t("summary")}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-[var(--color-text-secondary)]">
@@ -79,8 +76,8 @@ export function SessionViewPage() {
         {displayMessages.length === 0 ? (
           <EmptyState
             icon={MessageSquare}
-            title="No messages yet"
-            description="Send a message to start the conversation."
+            title={t("noMessages")}
+            description={t("noMessagesDesc")}
           />
         ) : (
           displayMessages.map((msg, i) => (
@@ -97,7 +94,7 @@ export function SessionViewPage() {
 
       {sendMutation.isError && (
         <ErrorState
-          title="Failed to send message"
+          title={t("sendFailed")}
           error={sendMutation.error}
           onRetry={() => sendMutation.mutate({ peerId: firstPeerId, content: input || "" })}
         />
@@ -108,12 +105,12 @@ export function SessionViewPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Type a message..."
+          placeholder={t("messagePlaceholder")}
           disabled={sendMutation.isPending}
         />
         <Button onClick={handleSend} disabled={sendMutation.isPending || !input.trim()}>
           {sendMutation.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-          Send
+          {tc("button.send")}
         </Button>
       </div>
     </div>

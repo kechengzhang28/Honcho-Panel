@@ -1,0 +1,31 @@
+{
+  "title": "Peers",
+  "workspace": "工作区: {{wid}}",
+  "search": "搜索 peers...",
+  "noPeers": "未找到 Peers",
+  "noPeersDesc": "Peers 在发送第一条消息时自动创建。",
+  "noSearchResults": "未找到匹配 \"{{query}}\" 的 Peers",
+  "noSearchResultsDesc": "请尝试其他搜索词。",
+  "detail": "Peer 详情",
+  "backToList": "返回 Peer 列表",
+  "tabs": {
+    "representation": "表征",
+    "card": "名片",
+    "chat": "对话"
+  },
+  "representation": {
+    "noRepresentation": "暂无表征",
+    "noRepresentationDesc": "Deriver 正在后台处理消息。"
+  },
+  "card": {
+    "noCard": "暂无 Peer 名片",
+    "noCardDesc": "Peer 名片由 Deriver 自动生成。"
+  },
+  "chat": {
+    "placeholder": "询问关于此 Peer 的问题...",
+    "emptyTitle": "询问关于此 Peer 的问题",
+    "emptyDesc": "Honcho 将搜索其记忆并提供推理。",
+    "reasoningTimeout": "推理耗时较长",
+    "reasoningTimeoutDesc": "Deriver 可能正在处理大量积压任务。"
+  }
+}

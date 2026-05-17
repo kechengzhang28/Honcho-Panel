@@ -1,0 +1,31 @@
+{
+  "title": "Peers",
+  "workspace": "Workspace: {{wid}}",
+  "search": "Search peers...",
+  "noPeers": "No peers found",
+  "noPeersDesc": "Peers are created automatically when they send their first message.",
+  "noSearchResults": "No peers match \"{{query}}\"",
+  "noSearchResultsDesc": "Try a different search term.",
+  "detail": "Peer Detail",
+  "backToList": "Back to Peers",
+  "tabs": {
+    "representation": "Representation",
+    "card": "Card",
+    "chat": "Chat"
+  },
+  "representation": {
+    "noRepresentation": "No representation yet",
+    "noRepresentationDesc": "The deriver processes messages in the background."
+  },
+  "card": {
+    "noCard": "No peer card yet",
+    "noCardDesc": "Peer cards are generated automatically by the deriver."
+  },
+  "chat": {
+    "placeholder": "Ask a question about this peer...",
+    "emptyTitle": "Ask a question about this peer",
+    "emptyDesc": "Honcho will search its memory and provide reasoning.",
+    "reasoningTimeout": "Reasoning is taking longer than expected",
+    "reasoningTimeoutDesc": "The deriver may be processing a large backlog."
+  }
+}

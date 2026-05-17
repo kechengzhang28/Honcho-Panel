@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import { Calendar, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +21,8 @@ export function SessionListPage() {
   const { wid = "default" } = useParams();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  const { t } = useTranslation("sessions");
+  const { t: tc } = useTranslation("common");
 
   const { data, isLoading, isError, error, refetch } = useSessionList(wid, page);
   const deleteMutation = useDeleteSession(wid);
@@ -30,8 +33,10 @@ export function SessionListPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">Sessions</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Workspace: {wid}</p>
+        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{t("title")}</h1>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+          {t("workspace", { wid })}
+        </p>
       </div>
 
       {isLoading ? (
@@ -41,20 +46,16 @@ export function SessionListPage() {
       ) : isError ? (
         <ErrorState error={error} onRetry={() => refetch()} />
       ) : sessions.length === 0 ? (
-        <EmptyState
-          icon={Calendar}
-          title="No sessions yet"
-          description="Sessions are created when peers interact."
-        />
+        <EmptyState icon={Calendar} title={t("noSessions")} description={t("noSessionsDesc")} />
       ) : (
         <>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Session ID</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead className="w-24">Actions</TableHead>
+                <TableHead>{tc("table.column.status")}</TableHead>
+                <TableHead>{tc("table.column.created")}</TableHead>
+                <TableHead className="w-24">{tc("table.column.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -63,7 +64,7 @@ export function SessionListPage() {
                   <TableCell className="font-mono text-sm">{s.id}</TableCell>
                   <TableCell>
                     <Badge variant={s.isActive ?? false ? "success" : "secondary"}>
-                      {s.isActive ?? false ? "Active" : "Inactive"}
+                      {s.isActive ?? false ? tc("status.active") : tc("status.inactive")}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-sm text-[var(--color-text-secondary)]">
@@ -76,7 +77,7 @@ export function SessionListPage() {
                         size="sm"
                         onClick={() => navigate(`/workspaces/${wid}/sessions/${s.id}`)}
                       >
-                        View
+                        {tc("button.view")}
                       </Button>
                       <Button
                         variant="ghost"
@@ -96,7 +97,7 @@ export function SessionListPage() {
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
               <p className="text-sm text-[var(--color-text-secondary)]">
-                Page {page} of {totalPages}
+                {tc("pagination.pageOf", { page, total: totalPages })}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -105,7 +106,7 @@ export function SessionListPage() {
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}
                 >
-                  Previous
+                  {tc("button.previous")}
                 </Button>
                 <Button
                   variant="outline"
@@ -113,7 +114,7 @@ export function SessionListPage() {
                   disabled={page >= totalPages}
                   onClick={() => setPage((p) => p + 1)}
                 >
-                  Next
+                  {tc("button.next")}
                 </Button>
               </div>
             </div>

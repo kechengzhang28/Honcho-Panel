@@ -1,0 +1,14 @@
+{
+  "title": "Overview",
+  "workspace": "Workspace: {{wid}}",
+  "stats": {
+    "total": "Total",
+    "completed": "Completed",
+    "inProgress": "In Progress",
+    "pending": "Pending"
+  },
+  "queueFailed": "Failed to load queue status",
+  "recentSessions": "Recent Sessions",
+  "noSessions": "No sessions yet",
+  "noSessionsDesc": "Sessions will appear here once peers start interacting."
+}

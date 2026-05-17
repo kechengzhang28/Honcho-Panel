@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import { Lightbulb, Search, Trash2, Loader2, AlertTriangle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,8 @@ export function ConclusionsPage() {
   const { wid = "default" } = useParams();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
+  const { t } = useTranslation("conclusions");
+  const { t: tc } = useTranslation("common");
 
   const { data, isLoading, isError, error, refetch } = useConclusionList(wid, page);
   const searchMutation = useConclusionSearch(wid);
@@ -41,14 +44,16 @@ export function ConclusionsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">Conclusions</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">Workspace: {wid}</p>
+        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{t("title")}</h1>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+          {t("workspace", { wid })}
+        </p>
       </div>
 
       <div className="flex items-center gap-3">
         <div className="w-80">
           <Input
-            placeholder="Semantic search conclusions..."
+            placeholder={t("searchPlaceholder")}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
@@ -61,11 +66,11 @@ export function ConclusionsPage() {
         >
           {searchMutation.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
           <Search className="h-4 w-4 mr-2" />
-          Search
+          {tc("button.search")}
         </Button>
         {searchResults && (
           <Button variant="ghost" size="sm" onClick={clearSearch}>
-            Clear
+            {tc("button.clear")}
           </Button>
         )}
       </div>
@@ -73,7 +78,7 @@ export function ConclusionsPage() {
       {searchMutation.isError && !searchResults && (
         <div className="text-sm text-[var(--color-destructive)] flex items-center gap-2">
           <AlertTriangle className="h-4 w-4" />
-          Search failed. Please try again.
+          {t("searchFailed")}
         </div>
       )}
 
@@ -84,13 +89,9 @@ export function ConclusionsPage() {
       ) : isError ? (
         <ErrorState error={error} onRetry={() => refetch()} />
       ) : showSearchEmpty ? (
-        <EmptyState icon={Search} title={`No results for "${searchResults?.query}"`} description="" />
+        <EmptyState icon={Search} title={t("noSearchResults", { query: searchResults?.query ?? "" })} description="" />
       ) : displayConclusions.length === 0 ? (
-        <EmptyState
-          icon={Lightbulb}
-          title="No conclusions yet"
-          description="The deriver processes messages in the background — check back soon."
-        />
+        <EmptyState icon={Lightbulb} title={t("noConclusions")} description={t("noConclusionsDesc")} />
       ) : (
         <>
           <div className="space-y-3">
@@ -103,9 +104,9 @@ export function ConclusionsPage() {
                   <div className="flex-1">
                     <p className="text-sm text-[var(--color-text-primary)]">{c.content}</p>
                     <div className="mt-2 flex items-center gap-3 text-xs text-[var(--color-text-muted)]">
-                      <span>Observer: {c.observerId}</span>
-                      <span>Observed: {c.observedId}</span>
-                      {c.sessionId && <span>Session: {c.sessionId}</span>}
+                      <span>{t("observer", { id: c.observerId })}</span>
+                      <span>{t("observed", { id: c.observedId })}</span>
+                      {c.sessionId && <span>{t("session", { id: c.sessionId })}</span>}
                     </div>
                   </div>
                   <Button
@@ -124,7 +125,7 @@ export function ConclusionsPage() {
           {!searchResults && totalPages > 1 && (
             <div className="flex items-center justify-between">
               <p className="text-sm text-[var(--color-text-secondary)]">
-                Page {page} of {totalPages}
+                {tc("pagination.pageOf", { page, total: totalPages })}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -133,7 +134,7 @@ export function ConclusionsPage() {
                   disabled={page <= 1}
                   onClick={() => setPage((p) => p - 1)}
                 >
-                  Previous
+                  {tc("button.previous")}
                 </Button>
                 <Button
                   variant="outline"
@@ -141,7 +142,7 @@ export function ConclusionsPage() {
                   disabled={page >= totalPages}
                   onClick={() => setPage((p) => p + 1)}
                 >
-                  Next
+                  {tc("button.next")}
                 </Button>
               </div>
             </div>

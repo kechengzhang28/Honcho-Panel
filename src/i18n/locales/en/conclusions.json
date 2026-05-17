@@ -1,0 +1,13 @@
+{
+  "title": "Conclusions",
+  "workspace": "Workspace: {{wid}}",
+  "search": "Search",
+  "searchPlaceholder": "Semantic search conclusions...",
+  "searchFailed": "Search failed. Please try again.",
+  "noConclusions": "No conclusions yet",
+  "noConclusionsDesc": "The deriver processes messages in the background — check back soon.",
+  "noSearchResults": "No results for \"{{query}}\"",
+  "observer": "Observer: {{id}}",
+  "observed": "Observed: {{id}}",
+  "session": "Session: {{id}}"
+}
