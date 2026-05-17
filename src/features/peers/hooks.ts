@@ -5,7 +5,7 @@ export function usePeerList(workspaceId: string, page: number, size = 20) {
   return useQuery({
     queryKey: ["workspaces", workspaceId, "peers", { page, size }],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const result = await honcho.peers({ page, size });
       return result;
     },
@@ -17,7 +17,7 @@ export function usePeerDetail(workspaceId: string, peerId: string) {
   return useQuery({
     queryKey: ["workspaces", workspaceId, "peers", peerId],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       return honcho.peer(peerId);
     },
     enabled: !!workspaceId && !!peerId,
@@ -28,7 +28,7 @@ export function usePeerCard(workspaceId: string, peerId: string) {
   return useQuery({
     queryKey: ["workspaces", workspaceId, "peers", peerId, "card"],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const peer = await honcho.peer(peerId);
       return peer.getCard();
     },
@@ -44,7 +44,7 @@ export function usePeerRepr(
   return useQuery({
     queryKey: ["workspaces", workspaceId, "peers", peerId, "repr", opts],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const peer = await honcho.peer(peerId);
       return peer.representation({
         session: opts?.sessionId,
@@ -69,7 +69,7 @@ export function usePeerChat(workspaceId: string, peerId: string) {
       sessionId?: string;
       reasoningLevel?: string;
     }) => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const peer = await honcho.peer(peerId);
       return peer.chat(query, {
         session: sessionId,

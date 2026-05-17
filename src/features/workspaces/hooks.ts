@@ -18,7 +18,7 @@ export function useQueueStatus(workspaceId: string) {
   return useQuery({
     queryKey: ["workspaces", workspaceId, "queue"],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const status = await honcho.queueStatus();
       return status as unknown as QueueStatus;
     },

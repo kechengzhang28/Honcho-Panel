@@ -12,7 +12,7 @@ export function useConclusionList(
   return useQuery({
     queryKey: ["workspaces", workspaceId, "conclusions", { page, size, observerId }],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const peer = await honcho.peer(observerId);
       return peer.conclusions.list({ page, size });
     },
@@ -20,10 +20,10 @@ export function useConclusionList(
   });
 }
 
-export function useConclusionSearch(_workspaceId: string, observerId = "honcho") {
+export function useConclusionSearch(workspaceId: string, observerId = "honcho") {
   return useMutation({
     mutationFn: async ({ query, topK = 10 }: { query: string; topK?: number }) => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const peer = await honcho.peer(observerId);
       return peer.conclusions.query(query, topK);
     },
@@ -35,7 +35,7 @@ export function useDeleteConclusion(workspaceId: string, observerId = "honcho") 
 
   return useMutation({
     mutationFn: async (conclusionId: string) => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const peer = await honcho.peer(observerId);
       return peer.conclusions.delete(conclusionId);
     },

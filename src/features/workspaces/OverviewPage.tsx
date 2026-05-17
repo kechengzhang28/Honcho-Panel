@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Activity, CheckCircle2, Clock, Loader2 } from "lucide-react";
+import { Activity, CheckCircle2, Clock, Loader2, Calendar } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -10,10 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { StatCardSkeleton } from "@/components/shared/Skeletons";
+import { StatCardSkeleton, TableRowSkeleton } from "@/components/shared/Skeletons";
 import { useQueueStatus } from "./hooks";
+import { useSessionList } from "@/features/sessions/hooks";
 
 export function OverviewPage() {
   const { wid = "default" } = useParams();
@@ -80,8 +82,12 @@ function QueueStats({ workspaceId }: { workspaceId: string }) {
   );
 }
 
-function RecentSessions({ workspaceId: _workspaceId }: { workspaceId: string }) {
+function RecentSessions({ workspaceId }: { workspaceId: string }) {
+  const { data, isLoading, isError, error, refetch } = useSessionList(workspaceId, 1, 5);
   const { t } = useTranslation("overview");
+  const { t: tc } = useTranslation("common");
+
+  const sessions = data?.items?.slice(0, 5) ?? [];
 
   return (
     <Card>
@@ -89,22 +95,38 @@ function RecentSessions({ workspaceId: _workspaceId }: { workspaceId: string }) 
         <CardTitle>{t("recentSessions")}</CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Session</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Created</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell colSpan={3}>
-                <EmptyState icon={Clock} title={t("noSessions")} description={t("noSessionsDesc")} />
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        {isLoading ? (
+          <TableRowSkeleton rows={3} />
+        ) : isError ? (
+          <ErrorState error={error} onRetry={() => refetch()} />
+        ) : sessions.length === 0 ? (
+          <EmptyState icon={Calendar} title={t("noSessions")} description={t("noSessionsDesc")} />
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Session</TableHead>
+                <TableHead>{tc("table.column.status")}</TableHead>
+                <TableHead>{tc("table.column.created")}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sessions.map((s) => (
+                <TableRow key={s.id}>
+                  <TableCell className="font-mono text-sm">{s.id}</TableCell>
+                  <TableCell>
+                    <Badge variant={s.isActive ? "success" : "secondary"}>
+                      {s.isActive ? tc("status.active") : tc("status.inactive")}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-sm text-[var(--color-text-secondary)]">
+                    {new Date(s.createdAt ?? "").toLocaleString()}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   );

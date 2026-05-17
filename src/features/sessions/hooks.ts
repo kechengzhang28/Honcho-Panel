@@ -7,7 +7,7 @@ export function useSessionList(workspaceId: string, page: number, size = 20) {
   return useQuery({
     queryKey: ["workspaces", workspaceId, "sessions", { page, size }],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       return honcho.sessions({ page, size });
     },
     enabled: !!workspaceId,
@@ -19,7 +19,7 @@ export function useDeleteSession(workspaceId: string) {
 
   return useMutation({
     mutationFn: async (sessionId: string) => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const session = await honcho.session(sessionId);
       return session.delete();
     },
@@ -41,7 +41,7 @@ export function useSessionContext(
   return useQuery({
     queryKey: ["workspaces", workspaceId, "sessions", sessionId, "context", options],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const session = await honcho.session(sessionId);
       return session.context({
         tokens: options?.tokens ?? 100000,
@@ -62,7 +62,7 @@ export function useMessageList(
   return useQuery({
     queryKey: ["workspaces", workspaceId, "sessions", sessionId, "messages", { page, size }],
     queryFn: async () => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const session = await honcho.session(sessionId);
       return session.messages({ page, size, reverse: true });
     },
@@ -75,7 +75,7 @@ export function useSendMessage(workspaceId: string, sessionId: string) {
 
   return useMutation({
     mutationFn: async (input: { peerId: string; content: string }) => {
-      const honcho = getHoncho();
+      const honcho = getHoncho(workspaceId);
       const session = await honcho.session(sessionId);
       return session.addMessages([input]);
     },
