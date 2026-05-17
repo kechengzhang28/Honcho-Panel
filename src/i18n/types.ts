@@ -170,6 +170,8 @@ export interface SettingsTranslations {
   languageTitle: string;
   languageDesc: string;
   aboutTitle: string;
-  aboutDesc: string;
-  version: string;
+  versionLabel: string;
+  licenseLabel: string;
+  repositoryLabel: string;
+  openGitHub: string;
 }

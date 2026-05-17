@@ -10,6 +10,8 @@
   "languageTitle": "语言",
   "languageDesc": "选择界面显示语言。",
   "aboutTitle": "关于",
-  "aboutDesc": "Honcho Panel — 自托管 Honcho API 服务器的管理界面。",
-  "version": "版本 {{version}}"
+  "versionLabel": "版本",
+  "licenseLabel": "许可证",
+  "repositoryLabel": "仓库",
+  "openGitHub": "在 GitHub 上查看"
 }

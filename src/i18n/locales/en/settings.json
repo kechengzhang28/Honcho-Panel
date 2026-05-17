@@ -10,6 +10,8 @@
   "languageTitle": "Language",
   "languageDesc": "Choose your preferred language for the interface.",
   "aboutTitle": "About",
-  "aboutDesc": "Honcho Panel — Management UI for self-hosted Honcho API servers.",
-  "version": "Version {{version}}"
+  "versionLabel": "Version",
+  "licenseLabel": "License",
+  "repositoryLabel": "Repository",
+  "openGitHub": "Open on GitHub"
 }

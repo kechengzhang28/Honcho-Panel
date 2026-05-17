@@ -2,12 +2,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useEffect } from "react";
-import { Loader2, Globe, ChevronDown, Check, Link2 } from "lucide-react";
+import { Loader2, Globe, ChevronDown, Check, Link2, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -112,8 +111,6 @@ export function SettingsPage() {
         </form>
       </div>
 
-      <Separator />
-
       <div className="rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-6 space-y-5">
         <div>
           <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("languageTitle")}</h2>
@@ -122,16 +119,23 @@ export function SettingsPage() {
         <LanguageSwitcher />
       </div>
 
-      <Separator />
-
       <div className="rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-6 space-y-3">
         <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("aboutTitle")}</h2>
-        <p className="text-sm text-[var(--color-text-secondary)]">
-          <strong>Honcho Panel</strong> — {t("aboutDesc").replace("Honcho Panel — ", "")}
-        </p>
-        <p className="text-sm text-[var(--color-text-secondary)]">
-          {t("version", { version: "0.1.0" })}
-        </p>
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-[var(--color-text-secondary)]">{t("versionLabel")}</span>
+          <span className="text-sm text-[var(--color-text-primary)]">0.1.0</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-[var(--color-text-secondary)]">{t("licenseLabel")}</span>
+          <span className="text-sm text-[var(--color-text-primary)]">MIT</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-[var(--color-text-secondary)]">{t("repositoryLabel")}</span>
+          <a href="https://github.com/kechengzhang28/Honcho-Panel" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-[var(--color-primary)] hover:underline">
+            {t("openGitHub")}
+            <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        </div>
       </div>
     </div>
   );
