@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Calendar, SearchX, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -68,7 +68,7 @@ export function SessionListPage() {
         <>
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="hover:bg-transparent">
                 <TableHead>Session ID</TableHead>
                 <TableHead className="w-36">{tc("table.column.created")}</TableHead>
                 <TableHead className="w-24 text-center">{tc("table.column.status")}</TableHead>
@@ -78,7 +78,9 @@ export function SessionListPage() {
             <TableBody>
               {filtered.map((s) => (
                 <TableRow key={s.id}>
-                  <TableCell className="font-mono text-sm">{s.id}</TableCell>
+                  <TableCell className="font-mono text-sm">
+                    <Link to={`/workspaces/${wid}/sessions/${s.id}`} className="hover:text-[var(--color-primary)]">{s.id}</Link>
+                  </TableCell>
                   <TableCell className="w-36 text-sm text-[var(--color-text-secondary)]">
                     {new Date(s.createdAt ?? "").toLocaleDateString()}
                   </TableCell>

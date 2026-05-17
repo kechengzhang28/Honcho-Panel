@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Users, MessageSquare, Clock, Calendar } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -151,7 +151,7 @@ function RecentSessions({ workspaceId }: { workspaceId: string }) {
           <div className="space-y-3">
             {sessions.map((s) => (
               <div key={s.id} className="flex items-center justify-between">
-                <span className="text-sm text-[var(--color-text-primary)] font-mono">{s.id}</span>
+                <Link to={`/workspaces/${workspaceId}/sessions/${s.id}`} className="text-sm font-mono hover:text-[var(--color-primary)]">{s.id}</Link>
                 <span className="text-sm text-[var(--color-text-muted)]">
                   {formatRelativeTime(s.createdAt)}
                 </span>

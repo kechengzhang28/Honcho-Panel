@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { SearchX, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -69,7 +69,7 @@ export function PeerListPage() {
         <>
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="hover:bg-transparent">
                 <TableHead>Peer ID</TableHead>
                 <TableHead className="w-36">{tc("table.column.created")}</TableHead>
                 <TableHead className="w-20 text-center">{tc("table.column.actions")}</TableHead>
@@ -78,7 +78,9 @@ export function PeerListPage() {
             <TableBody>
               {filtered.map((peer) => (
                 <TableRow key={peer.id}>
-                  <TableCell className="font-mono text-sm">{peer.id}</TableCell>
+                  <TableCell className="font-mono text-sm">
+                    <Link to={`/workspaces/${wid}/peers/${peer.id}`} className="hover:text-[var(--color-primary)]">{peer.id}</Link>
+                  </TableCell>
                   <TableCell className="w-36 text-sm text-[var(--color-text-secondary)]">
                     {new Date(peer.createdAt ?? "").toLocaleDateString()}
                   </TableCell>
