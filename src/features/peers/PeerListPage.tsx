@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { SearchX, Users } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -15,6 +14,7 @@ import {
 import { ErrorState } from "@/components/shared/ErrorState";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { TableRowSkeleton } from "@/components/shared/Skeletons";
+import { SearchBox } from "@/components/shared/SearchBox";
 import { usePeerList } from "./hooks";
 
 export function PeerListPage() {
@@ -43,15 +43,11 @@ export function PeerListPage() {
         </p>
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="w-72">
-          <Input
-            placeholder={t("search")}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-      </div>
+      <SearchBox
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder={t("search")}
+      />
 
       {isLoading ? (
         <div className="space-y-3">

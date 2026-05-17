@@ -1,13 +1,17 @@
 {
-  "title": "Peers",
+  "title": "实体",
   "workspace": "工作区: {{wid}}",
-  "search": "搜索 peers...",
-  "noPeers": "未找到 Peers",
-  "noPeersDesc": "Peers 在发送第一条消息时自动创建。",
-  "noSearchResults": "未找到匹配 \"{{query}}\" 的 Peers",
+  "search": "搜索实体...",
+  "noPeers": "未找到实体",
+  "noPeersDesc": "实体在发送第一条消息时自动创建。",
+  "noSearchResults": "未找到匹配 \"{{query}}\" 的实体",
   "noSearchResultsDesc": "请尝试其他搜索词。",
-  "detail": "Peer 详情",
+  "detail": "实体详情",
   "backToList": "返回 Peer 列表",
+  "header": {
+    "sessions": "{{count}} 个会话",
+    "created": "创建于 {{date}}"
+  },
   "tabs": {
     "representation": "表征",
     "card": "名片",

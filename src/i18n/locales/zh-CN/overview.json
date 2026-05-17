@@ -2,12 +2,23 @@
   "title": "概览",
   "workspace": "工作区: {{wid}}",
   "stats": {
+    "sessions": "会话总数",
+    "sessionsDesc": "此工作区中",
+    "peers": "活跃 Peers",
+    "peersDesc": "已注册的 peers",
+    "messages": "消息总数",
+    "messagesDesc": "已处理的消息",
+    "queueLength": "队列长度",
+    "queueLengthDesc": "等待处理"
+  },
+  "statsFailed": "加载工作区统计失败",
+  "queueStatus": "队列状态",
+  "queue": {
     "total": "总计",
     "completed": "已完成",
-    "inProgress": "进行中",
+    "processing": "处理中",
     "pending": "待处理"
   },
-  "queueFailed": "加载队列状态失败",
   "recentSessions": "最近会话",
   "noSessions": "暂无会话",
   "noSessionsDesc": "Peers 开始交互后，会话将显示在这里。"

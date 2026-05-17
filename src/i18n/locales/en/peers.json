@@ -1,13 +1,17 @@
 {
-  "title": "Peers",
+  "title": "Entities",
   "workspace": "Workspace: {{wid}}",
-  "search": "Search peers...",
-  "noPeers": "No peers found",
-  "noPeersDesc": "Peers are created automatically when they send their first message.",
-  "noSearchResults": "No peers match \"{{query}}\"",
+  "search": "Search entities...",
+  "noPeers": "No entities found",
+  "noPeersDesc": "Entities are created automatically when they send their first message.",
+  "noSearchResults": "No entities match \"{{query}}\"",
   "noSearchResultsDesc": "Try a different search term.",
-  "detail": "Peer Detail",
+  "detail": "Entity Detail",
   "backToList": "Back to Peers",
+  "header": {
+    "sessions": "{{count}} Sessions",
+    "created": "Created {{date}}"
+  },
   "tabs": {
     "representation": "Representation",
     "card": "Card",

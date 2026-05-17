@@ -2,12 +2,23 @@
   "title": "Overview",
   "workspace": "Workspace: {{wid}}",
   "stats": {
+    "sessions": "Total Sessions",
+    "sessionsDesc": "Across this workspace",
+    "peers": "Active Peers",
+    "peersDesc": "Registered peers",
+    "messages": "Total Messages",
+    "messagesDesc": "Messages processed",
+    "queueLength": "Queue Length",
+    "queueLengthDesc": "Awaiting processing"
+  },
+  "statsFailed": "Failed to load workspace stats",
+  "queueStatus": "Queue Status",
+  "queue": {
     "total": "Total",
     "completed": "Completed",
-    "inProgress": "In Progress",
+    "processing": "Processing",
     "pending": "Pending"
   },
-  "queueFailed": "Failed to load queue status",
   "recentSessions": "Recent Sessions",
   "noSessions": "No sessions yet",
   "noSessionsDesc": "Sessions will appear here once peers start interacting."

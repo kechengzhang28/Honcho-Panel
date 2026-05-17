@@ -1,45 +1,52 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Lightbulb, Search, Trash2, Loader2, AlertTriangle } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Lightbulb, Trash2, ChevronDown, Check, SearchX } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { TableRowSkeleton } from "@/components/shared/Skeletons";
-import { useConclusionList, useConclusionSearch, useDeleteConclusion } from "./hooks";
+import { SearchBox } from "@/components/shared/SearchBox";
+import { useConclusionList, useDeleteConclusion } from "./hooks";
 
 export function ConclusionsPage() {
   const { wid = "default" } = useParams();
   const [page, setPage] = useState(1);
-  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
+  const [observedFilter, setObservedFilter] = useState<string>("");
   const { t } = useTranslation("conclusions");
   const { t: tc } = useTranslation("common");
 
-  const { data, isLoading, isError, error, refetch } = useConclusionList(wid, page);
-  const searchMutation = useConclusionSearch(wid);
+  const { data, isLoading, isError, error, refetch } = useConclusionList(wid, page, 50);
   const deleteMutation = useDeleteConclusion(wid);
 
   const conclusions = data?.items ?? [];
   const totalPages = data?.pages ?? 1;
 
-  const [searchResults, setSearchResults] = useState<
-    { items: Awaited<ReturnType<typeof searchMutation.mutateAsync>>; query: string } | null
-  >(null);
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
-  const handleSearch = async () => {
-    if (!searchInput.trim()) return;
-    const result = await searchMutation.mutateAsync({ query: searchInput.trim() });
-    setSearchResults({ items: result, query: searchInput.trim() });
-  };
+  const displayConclusions = useMemo(() => {
+    let filtered = conclusions;
+    if (search) {
+      filtered = filtered.filter((c) =>
+        c.content?.toLowerCase().includes(search.toLowerCase()),
+      );
+    }
+    if (observedFilter) {
+      filtered = filtered.filter((c) => c.observedId === observedFilter);
+    }
+    return [...filtered].sort((a, b) => {
+      const dateA = new Date(a.createdAt ?? 0).getTime();
+      const dateB = new Date(b.createdAt ?? 0).getTime();
+      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+    });
+  }, [conclusions, search, observedFilter, sortOrder]);
 
-  const clearSearch = () => {
-    setSearchInput("");
-    setSearchResults(null);
-  };
-
-  const displayConclusions = searchResults?.items ?? conclusions;
-  const showSearchEmpty = searchResults && searchResults.items.length === 0;
+  const observedPeers = useMemo(() => {
+    const set = new Set(conclusions.map((c) => c.observedId).filter(Boolean));
+    return Array.from(set);
+  }, [conclusions]);
 
   return (
     <div className="space-y-6">
@@ -50,37 +57,51 @@ export function ConclusionsPage() {
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="w-80">
-          <Input
-            placeholder={t("searchPlaceholder")}
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          />
-        </div>
-        <Button
-          variant="outline"
-          onClick={handleSearch}
-          disabled={searchMutation.isPending || !searchInput.trim()}
-        >
-          {searchMutation.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-          <Search className="h-4 w-4 mr-2" />
-          {tc("button.search")}
-        </Button>
-        {searchResults && (
-          <Button variant="ghost" size="sm" onClick={clearSearch}>
-            {tc("button.clear")}
-          </Button>
-        )}
-      </div>
+      <SearchBox
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder={t("searchPlaceholder")}
+      />
 
-      {searchMutation.isError && !searchResults && (
-        <div className="text-sm text-[var(--color-destructive)] flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4" />
-          {t("searchFailed")}
-        </div>
-      )}
+      <div className="flex items-center justify-between">
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center gap-2 rounded-[var(--radius-sm)] bg-[var(--color-bg-muted)] px-3 py-2 text-sm text-[var(--color-text-primary)]">
+            {observedFilter
+              ? `Observed: ${observedFilter}`
+              : t("filter.allPeers")}
+            <ChevronDown className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem onClick={() => setObservedFilter("")} className="flex items-center justify-between">
+              {t("filter.allPeers")}
+              {!observedFilter && <Check className="h-4 w-4 text-[var(--color-primary)]" />}
+            </DropdownMenuItem>
+            {observedPeers.map((peer) => (
+              <DropdownMenuItem key={peer} onClick={() => setObservedFilter(peer)} className="flex items-center justify-between">
+                {peer}
+                {observedFilter === peer && <Check className="h-4 w-4 text-[var(--color-primary)]" />}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center gap-2 rounded-[var(--radius-sm)] bg-[var(--color-bg-muted)] px-3 py-2 text-sm text-[var(--color-text-primary)]">
+            {t("filter.sort", { order: sortOrder === "newest" ? t("filter.newest") : t("filter.oldest") })}
+            <ChevronDown className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setSortOrder("newest")} className="flex items-center justify-between">
+              {t("filter.newest")}
+              {sortOrder === "newest" && <Check className="h-4 w-4 text-[var(--color-primary)]" />}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSortOrder("oldest")} className="flex items-center justify-between">
+              {t("filter.oldest")}
+              {sortOrder === "oldest" && <Check className="h-4 w-4 text-[var(--color-primary)]" />}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
       {isLoading ? (
         <div className="space-y-3">
@@ -88,8 +109,8 @@ export function ConclusionsPage() {
         </div>
       ) : isError ? (
         <ErrorState error={error} onRetry={() => refetch()} />
-      ) : showSearchEmpty ? (
-        <EmptyState icon={Search} title={t("noSearchResults", { query: searchResults?.query ?? "" })} description="" />
+      ) : search && displayConclusions.length === 0 ? (
+        <EmptyState icon={SearchX} title={t("noSearchResults", { query: search })} description="" />
       ) : displayConclusions.length === 0 ? (
         <EmptyState icon={Lightbulb} title={t("noConclusions")} description={t("noConclusionsDesc")} />
       ) : (
@@ -122,7 +143,7 @@ export function ConclusionsPage() {
             ))}
           </div>
 
-          {!searchResults && totalPages > 1 && (
+          {!search && totalPages > 1 && (
             <div className="flex items-center justify-between">
               <p className="text-sm text-[var(--color-text-secondary)]">
                 {tc("pagination.pageOf", { page, total: totalPages })}

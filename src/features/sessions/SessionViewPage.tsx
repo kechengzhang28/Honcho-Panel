@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import { FileQuestion, Loader2, MessageSquare } from "lucide-react";
+import { FileQuestion, Loader2, MessageSquare, User, Calendar } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,13 +50,36 @@ export function SessionViewPage() {
     );
   }
 
+  const msgCount = context?.messages?.length ?? 0;
+  const peerId = context?.messages?.[0]?.peerId;
+  const createdAt = msgCount > 0
+    ? (context?.messages?.[0] as { createdAt?: string })?.createdAt
+    : null;
+
   return (
     <div className="space-y-4">
       <BackLink href={`/workspaces/${wid}?tab=sessions`}>{t("backToList")}</BackLink>
 
       <div>
         <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{sid}</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("view")}</p>
+        <div className="mt-2 flex items-center gap-6 text-[13px] text-[var(--color-text-secondary)]">
+          {peerId && (
+            <span className="flex items-center gap-1.5">
+              <User className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
+              {t("info.peer", { peer: peerId })}
+            </span>
+          )}
+          <span className="flex items-center gap-1.5">
+            <MessageSquare className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
+            {t("info.messages", { count: msgCount })}
+          </span>
+          {createdAt && (
+            <span className="flex items-center gap-1.5">
+              <Calendar className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
+              {t("info.created", { date: new Date(createdAt).toLocaleDateString() })}
+            </span>
+          )}
+        </div>
       </div>
 
       {context?.summary && (

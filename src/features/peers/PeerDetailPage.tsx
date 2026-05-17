@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import { FileText, IdCard, MessageCircle, Clock, Loader2 } from "lucide-react";
+import { FileText, IdCard, MessageCircle, Clock, Loader2, CalendarDays } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import { EmptyState } from "@/components/shared/EmptyState";
 import { ChatMessage } from "@/components/shared/ChatMessage";
 import { BackLink } from "@/components/shared/BackLink";
 import { TextSkeleton, MessageSkeleton } from "@/components/shared/Skeletons";
-import { usePeerRepr, usePeerCard, usePeerChat } from "./hooks";
+import { usePeerRepr, usePeerCard, usePeerChat, usePeerDetail } from "./hooks";
 
 export function PeerDetailPage() {
   const { wid = "default", pid = "" } = useParams();
@@ -20,10 +20,7 @@ export function PeerDetailPage() {
     <div className="space-y-4">
       <BackLink href={`/workspaces/${wid}?tab=peers`}>{t("backToList")}</BackLink>
 
-      <div>
-        <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{pid}</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("detail")}</p>
-      </div>
+      <PeerHeader workspaceId={wid} peerId={pid} />
 
       <Tabs defaultValue="representation">
         <TabsList>
@@ -51,6 +48,34 @@ export function PeerDetailPage() {
           <ChatTab workspaceId={wid} peerId={pid} />
         </TabsContent>
       </Tabs>
+    </div>
+  );
+}
+
+function PeerHeader({ workspaceId, peerId }: { workspaceId: string; peerId: string }) {
+  const { data: peer, isLoading } = usePeerDetail(workspaceId, peerId);
+  const { t } = useTranslation("peers");
+
+  if (isLoading) return <div className="h-20 rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg-secondary)] animate-pulse" />;
+
+  const initials = (peerId || "?").slice(0, 2).toUpperCase();
+
+  return (
+    <div className="flex items-center gap-4 rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-5">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-primary-light)] text-base font-semibold text-[var(--color-primary)]">
+        {initials}
+      </div>
+      <div>
+        <h1 className="text-xl font-semibold text-[var(--color-text-primary)]">{peerId}</h1>
+        <div className="mt-1 flex items-center gap-3 text-[13px] text-[var(--color-text-secondary)]">
+          {peer?.createdAt && (
+            <span className="flex items-center gap-1">
+              <CalendarDays className="h-3 w-3 text-[var(--color-text-muted)]" />
+              {t("header.created", { date: new Date(peer.createdAt).toLocaleDateString() })}
+            </span>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

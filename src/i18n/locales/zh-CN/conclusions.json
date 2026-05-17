@@ -2,12 +2,18 @@
   "title": "结论",
   "workspace": "工作区: {{wid}}",
   "search": "搜索",
-  "searchPlaceholder": "语义搜索结论...",
+  "searchPlaceholder": "搜索结论...",
   "searchFailed": "搜索失败。请重试。",
   "noConclusions": "暂无结论",
   "noConclusionsDesc": "Deriver 正在后台处理消息——稍后回来查看。",
   "noSearchResults": "未找到 \"{{query}}\" 的相关结果",
   "observer": "观察者: {{id}}",
   "observed": "被观察者: {{id}}",
-  "session": "会话: {{id}}"
+  "session": "会话: {{id}}",
+  "filter": {
+    "allPeers": "所有实体",
+    "sort": "排序: {{order}}",
+    "newest": "最新",
+    "oldest": "最早"
+  }
 }

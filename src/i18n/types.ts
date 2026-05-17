@@ -53,12 +53,23 @@ export interface OverviewTranslations {
   title: string;
   workspace: string;
   stats: {
+    sessions: string;
+    sessionsDesc: string;
+    peers: string;
+    peersDesc: string;
+    messages: string;
+    messagesDesc: string;
+    queueLength: string;
+    queueLengthDesc: string;
+  };
+  statsFailed: string;
+  queueStatus: string;
+  queue: {
     total: string;
     completed: string;
-    inProgress: string;
+    processing: string;
     pending: string;
   };
-  queueFailed: string;
   recentSessions: string;
   noSessions: string;
   noSessionsDesc: string;
@@ -71,8 +82,13 @@ export interface PeersTranslations {
   noPeers: string;
   noPeersDesc: string;
   noSearchResults: string;
+  noSearchResultsDesc: string;
   detail: string;
   backToList: string;
+  header: {
+    sessions: string;
+    created: string;
+  };
   tabs: {
     representation: string;
     card: string;
@@ -98,10 +114,17 @@ export interface PeersTranslations {
 export interface SessionsTranslations {
   title: string;
   workspace: string;
+  searchPlaceholder: string;
   noSessions: string;
   noSessionsDesc: string;
+  noSearchResults: string;
   view: string;
   backToList: string;
+  info: {
+    peer: string;
+    messages: string;
+    created: string;
+  };
   summary: string;
   noMessages: string;
   noMessagesDesc: string;
@@ -123,6 +146,12 @@ export interface ConclusionsTranslations {
   observer: string;
   observed: string;
   session: string;
+  filter: {
+    allPeers: string;
+    sort: string;
+    newest: string;
+    oldest: string;
+  };
 }
 
 export interface SettingsTranslations {

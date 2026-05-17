@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,13 +54,11 @@ export function Sidebar() {
   const currentWorkspace = wid ?? "default";
 
   return (
-    <aside className="flex w-60 flex-col border-r border-[var(--color-border)] bg-[var(--color-bg)]">
-      <div className="flex h-14 items-center gap-2 px-4">
+    <aside className="flex w-60 flex-col border-r border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+      <div className="flex h-14 items-center gap-2 border-b-2 border-[var(--color-border-light)] px-4">
         <Bot className="h-6 w-6 text-[var(--color-primary)]" />
         <span className="text-lg font-semibold text-[var(--color-text-primary)]">{t("sidebar.brand")}</span>
       </div>
-
-      <Separator />
 
       <div className="p-3">
         <DropdownMenu>
@@ -101,9 +98,7 @@ export function Sidebar() {
         </DropdownMenu>
       </div>
 
-      <Separator />
-
-      <ScrollArea className="flex-1 px-3 py-2">
+      <ScrollArea className="flex-1 border-b-2 border-[var(--color-border-light)] px-3 py-2">
         <nav className="flex flex-col gap-1">
           {navItems.map((item) => {
             const isActive = isWorkspaceRoute && currentTab === item.tab;
@@ -126,8 +121,6 @@ export function Sidebar() {
           })}
         </nav>
       </ScrollArea>
-
-      <Separator />
 
       <div className="p-3">
         <button

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Calendar, Trash2 } from "lucide-react";
+import { Calendar, SearchX, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -15,12 +15,14 @@ import { Badge } from "@/components/ui/badge";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { TableRowSkeleton } from "@/components/shared/Skeletons";
+import { SearchBox } from "@/components/shared/SearchBox";
 import { useSessionList, useDeleteSession } from "./hooks";
 
 export function SessionListPage() {
   const { wid = "default" } = useParams();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
   const { t } = useTranslation("sessions");
   const { t: tc } = useTranslation("common");
 
@@ -29,6 +31,10 @@ export function SessionListPage() {
 
   const sessions = data?.items ?? [];
   const totalPages = data?.pages ?? 1;
+
+  const filtered = search
+    ? sessions.filter((s) => s.id.toLowerCase().includes(search.toLowerCase()))
+    : sessions;
 
   return (
     <div className="space-y-6">
@@ -39,14 +45,24 @@ export function SessionListPage() {
         </p>
       </div>
 
+      <SearchBox
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder={t("searchPlaceholder")}
+      />
+
       {isLoading ? (
         <div className="space-y-3">
           <TableRowSkeleton rows={6} />
         </div>
       ) : isError ? (
         <ErrorState error={error} onRetry={() => refetch()} />
-      ) : sessions.length === 0 ? (
-        <EmptyState icon={Calendar} title={t("noSessions")} description={t("noSessionsDesc")} />
+      ) : filtered.length === 0 ? (
+        search ? (
+          <EmptyState icon={SearchX} title={t("noSearchResults", { query: search })} description="" />
+        ) : (
+          <EmptyState icon={Calendar} title={t("noSessions")} description={t("noSessionsDesc")} />
+        )
       ) : (
         <>
           <Table>
@@ -59,7 +75,7 @@ export function SessionListPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sessions.map((s) => (
+              {filtered.map((s) => (
                 <TableRow key={s.id}>
                   <TableCell className="font-mono text-sm">{s.id}</TableCell>
                   <TableCell>
@@ -94,7 +110,7 @@ export function SessionListPage() {
             </TableBody>
           </Table>
 
-          {totalPages > 1 && (
+          {totalPages > 1 && !search && (
             <div className="flex items-center justify-between">
               <p className="text-sm text-[var(--color-text-secondary)]">
                 {tc("pagination.pageOf", { page, total: totalPages })}
