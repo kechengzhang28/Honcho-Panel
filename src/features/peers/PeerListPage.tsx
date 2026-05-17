@@ -86,6 +86,7 @@ export function PeerListPage() {
                     <Button
                       variant="ghost"
                       size="sm"
+                      className="hover:text-[var(--color-primary)]"
                       onClick={() => navigate(`/workspaces/${wid}/peers/${peer.id}`)}
                     >
                       {tc("button.view")}

@@ -31,6 +31,10 @@ body {
   background-color: var(--color-bg-secondary);
 }
 
+button, [role="button"], a {
+  cursor: pointer;
+}
+
 #root {
   min-height: 100vh;
 }

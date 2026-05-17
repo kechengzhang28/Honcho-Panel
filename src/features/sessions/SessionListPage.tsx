@@ -91,6 +91,7 @@ export function SessionListPage() {
                       <Button
                         variant="ghost"
                         size="sm"
+                        className="hover:text-[var(--color-primary)]"
                         onClick={() => navigate(`/workspaces/${wid}/sessions/${s.id}`)}
                       >
                         {tc("button.view")}
@@ -98,10 +99,11 @@ export function SessionListPage() {
                       <Button
                         variant="ghost"
                         size="icon"
+                        className="hover:text-[var(--color-destructive)]"
                         onClick={() => deleteMutation.mutate(s.id)}
                         disabled={deleteMutation.isPending}
                       >
-                        <Trash2 className="h-4 w-4 text-[var(--color-text-muted)]" />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>

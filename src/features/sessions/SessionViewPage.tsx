@@ -55,7 +55,7 @@ export function SessionViewPage() {
           {createdAt && (
             <span className="flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
-              {t("info.created", { date: new Date(createdAt).toLocaleDateString() })}
+              {t("info.created", { date: new Date(createdAt).toLocaleString() })}
             </span>
           )}
         </div>
