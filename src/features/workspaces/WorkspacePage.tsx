@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router";
 import { OverviewPage } from "@/features/workspaces/OverviewPage";
 import { PeerListPage } from "@/features/peers/PeerListPage";
 import { SessionListPage } from "@/features/sessions/SessionListPage";
-import { PlaceholderPage } from "@/components/shared/PlaceholderPage";
+import { ConclusionsPage } from "@/features/conclusions/ConclusionsPage";
 
 export function WorkspacePage() {
   const [searchParams] = useSearchParams();
@@ -16,7 +16,7 @@ export function WorkspacePage() {
     case "sessions":
       return <SessionListPage />;
     case "conclusions":
-      return <PlaceholderPage title="Conclusions" />;
+      return <ConclusionsPage />;
     default:
       return <OverviewPage />;
   }
