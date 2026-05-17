@@ -15,5 +15,7 @@
     "sort": "排序: {{order}}",
     "newest": "最新",
     "oldest": "最早"
-  }
+  },
+  "deleteConfirmTitle": "删除结论",
+  "deleteConfirmDesc": "删除此结论？此操作无法撤消。"
 }

@@ -18,5 +18,7 @@
   "notFound": "Session not found",
   "notFoundDesc": "It may have been deleted.",
   "sendFailed": "Failed to send message",
-  "messagePlaceholder": "Type a message..."
+  "messagePlaceholder": "Type a message...",
+  "deleteConfirmTitle": "Delete Session",
+  "deleteConfirmDesc": "Delete \"{{id}}\"? This action cannot be undone."
 }

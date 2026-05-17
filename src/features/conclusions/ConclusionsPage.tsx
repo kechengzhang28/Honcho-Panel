@@ -8,6 +8,7 @@ import { ErrorState } from "@/components/shared/ErrorState";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { TableRowSkeleton } from "@/components/shared/Skeletons";
 import { SearchBox } from "@/components/shared/SearchBox";
+import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { useConclusionList, useDeleteConclusion } from "./hooks";
 
 export function ConclusionsPage() {
@@ -130,15 +131,20 @@ export function ConclusionsPage() {
                       {c.sessionId && <span>{t("session", { id: c.sessionId })}</span>}
                     </div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="hover:text-[var(--color-destructive)]"
-                    onClick={() => deleteMutation.mutate(c.id)}
-                    disabled={deleteMutation.isPending}
+                  <ConfirmDialog
+                    title={t("deleteConfirmTitle")}
+                    description={t("deleteConfirmDesc")}
+                    onConfirm={() => deleteMutation.mutate(c.id)}
                   >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:text-[var(--color-destructive)]"
+                      disabled={deleteMutation.isPending}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </ConfirmDialog>
                 </div>
               </div>
             ))}

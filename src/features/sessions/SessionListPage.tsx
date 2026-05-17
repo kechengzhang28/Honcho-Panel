@@ -16,6 +16,7 @@ import { ErrorState } from "@/components/shared/ErrorState";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { TableRowSkeleton } from "@/components/shared/Skeletons";
 import { SearchBox } from "@/components/shared/SearchBox";
+import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { useSessionList, useDeleteSession } from "./hooks";
 
 export function SessionListPage() {
@@ -96,15 +97,20 @@ export function SessionListPage() {
                       >
                         {tc("button.view")}
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="hover:text-[var(--color-destructive)]"
-                        onClick={() => deleteMutation.mutate(s.id)}
-                        disabled={deleteMutation.isPending}
+                      <ConfirmDialog
+                        title={t("deleteConfirmTitle")}
+                        description={t("deleteConfirmDesc", { id: s.id })}
+                        onConfirm={() => deleteMutation.mutate(s.id)}
                       >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="hover:text-[var(--color-destructive)]"
+                          disabled={deleteMutation.isPending}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </ConfirmDialog>
                     </div>
                   </TableCell>
                 </TableRow>

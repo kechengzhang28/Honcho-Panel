@@ -15,5 +15,7 @@
     "sort": "Sort: {{order}}",
     "newest": "Newest",
     "oldest": "Oldest"
-  }
+  },
+  "deleteConfirmTitle": "Delete Conclusion",
+  "deleteConfirmDesc": "Delete this conclusion? This action cannot be undone."
 }

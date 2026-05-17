@@ -18,5 +18,7 @@
   "notFound": "未找到会话",
   "notFoundDesc": "该会话可能已被删除。",
   "sendFailed": "发送消息失败",
-  "messagePlaceholder": "输入消息..."
+  "messagePlaceholder": "输入消息...",
+  "deleteConfirmTitle": "删除会话",
+  "deleteConfirmDesc": "删除 \"{{id}}\"？此操作无法撤消。"
 }

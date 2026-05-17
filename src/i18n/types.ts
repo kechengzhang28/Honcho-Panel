@@ -132,6 +132,8 @@ export interface SessionsTranslations {
   notFoundDesc: string;
   sendFailed: string;
   messagePlaceholder: string;
+  deleteConfirmTitle: string;
+  deleteConfirmDesc: string;
 }
 
 export interface ConclusionsTranslations {
@@ -152,6 +154,8 @@ export interface ConclusionsTranslations {
     newest: string;
     oldest: string;
   };
+  deleteConfirmTitle: string;
+  deleteConfirmDesc: string;
 }
 
 export interface SettingsTranslations {
