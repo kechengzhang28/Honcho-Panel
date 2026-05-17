@@ -10,7 +10,7 @@ let _honcho: Honcho | null = null;
 
 export function getHoncho(): Honcho {
   if (!_honcho) {
-    const baseURL = import.meta.env.DEV ? "" : getApiUrl();
+    const baseURL = import.meta.env.DEV ? window.location.origin : getApiUrl();
     _honcho = new Honcho({ baseURL });
   }
   return _honcho;
@@ -18,7 +18,7 @@ export function getHoncho(): Honcho {
 
 export function configureApiUrl(url: string): void {
   localStorage.setItem("honcho_api_url", url);
-  const baseURL = import.meta.env.DEV ? "" : url;
+  const baseURL = import.meta.env.DEV ? window.location.origin : url;
   _honcho = new Honcho({ baseURL });
 }
 
