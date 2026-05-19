@@ -12,6 +12,7 @@ import {
   ChevronDown,
   Check,
   Loader2,
+  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -67,7 +68,7 @@ export function Sidebar() {
               {loadingWorkspaces ? (
                 <Loader2 className="h-4 w-4 animate-spin text-[var(--color-primary)]" />
               ) : (
-                <Bot className="h-4 w-4 text-[var(--color-primary)]" />
+                <Layers className="h-4 w-4 text-[var(--color-primary)]" />
               )}
               <span className="truncate">{currentWorkspace}</span>
             </div>
