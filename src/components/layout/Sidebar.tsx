@@ -8,7 +8,7 @@ import {
   Calendar,
   Lightbulb,
   Settings,
-  Bot,
+  BrainCircuit,
   ChevronDown,
   Check,
   Loader2,
@@ -57,7 +57,7 @@ export function Sidebar() {
   return (
     <aside className="flex w-60 flex-col border-r border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
       <div className="flex h-14 items-center gap-2 border-b-2 border-[var(--color-border-light)] px-4">
-        <Bot className="h-6 w-6 text-[var(--color-primary)]" />
+        <BrainCircuit className="h-6 w-6 text-[var(--color-primary)]" />
         <span className="text-lg font-semibold text-[var(--color-text-primary)]">{t("sidebar.brand")}</span>
       </div>
 
