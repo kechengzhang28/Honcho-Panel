@@ -12,8 +12,22 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss(), tsconfigPaths()],
+    server: {
+      host: true,
+      allowedHosts,
+      proxy: {
+        "/health": {
+          target: proxyTarget,
+          changeOrigin: true,
+        },
+        "/v3": {
+          target: proxyTarget,
+          changeOrigin: true,
+        },
+      },
+    },
     define: {
-      // @honcho-ai/sdk 在浏览器中引用 process.env，需要 polyfill
+      // @honcho-ai/sdk references process.env in the browser, needs polyfill
       "process.env": JSON.stringify({}),
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version || "0.0.0"),
     },
