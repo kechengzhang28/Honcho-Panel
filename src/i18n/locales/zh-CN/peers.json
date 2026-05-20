@@ -1,0 +1,35 @@
+{
+  "title": "实体",
+  "workspace": "工作区: {{wid}}",
+  "search": "搜索实体...",
+  "noPeers": "未找到实体",
+  "noPeersDesc": "实体在发送第一条消息时自动创建。",
+  "noSearchResults": "未找到匹配 \"{{query}}\" 的实体",
+  "noSearchResultsDesc": "请尝试其他搜索词。",
+  "detail": "实体详情",
+  "backToList": "返回 Peer 列表",
+  "header": {
+    "sessions": "{{count}} 个会话",
+    "created": "创建于 {{date}}"
+  },
+  "tabs": {
+    "representation": "表征",
+    "card": "名片",
+    "chat": "对话"
+  },
+  "representation": {
+    "noRepresentation": "暂无表征",
+    "noRepresentationDesc": "Deriver 正在后台处理消息。"
+  },
+  "card": {
+    "noCard": "暂无 Peer 名片",
+    "noCardDesc": "Peer 名片由 Deriver 自动生成。"
+  },
+  "chat": {
+    "placeholder": "询问关于此 Peer 的问题...",
+    "emptyTitle": "询问关于此 Peer 的问题",
+    "emptyDesc": "Honcho 将搜索其记忆并提供推理。",
+    "reasoningTimeout": "推理耗时较长",
+    "reasoningTimeoutDesc": "Deriver 可能正在处理大量积压任务。"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "title": "会话",
+  "workspace": "工作区: {{wid}}",
+  "searchPlaceholder": "搜索会话...",
+  "noSessions": "暂无会话",
+  "noSessionsDesc": "Peers 交互时会自动创建会话。",
+  "noSearchResults": "未找到匹配 \"{{query}}\" 的会话",
+  "view": "会话详情",
+  "backToList": "返回会话列表",
+  "info": {
+    "peer": "Peer: {{peer}}",
+    "messages": "{{count}} 条消息",
+    "created": "创建于: {{date}}"
+  },
+  "summary": "摘要",
+  "noMessages": "暂无消息",
+  "noMessagesDesc": "发送一条消息开始对话。",
+  "notFound": "未找到会话",
+  "notFoundDesc": "该会话可能已被删除。",
+  "sendFailed": "发送消息失败",
+  "messagePlaceholder": "输入消息...",
+  "deleteConfirmTitle": "删除会话",
+  "deleteConfirmDesc": "删除 \"{{id}}\"？此操作无法撤消。"
+}

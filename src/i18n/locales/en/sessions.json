@@ -1,0 +1,24 @@
+{
+  "title": "Sessions",
+  "workspace": "Workspace: {{wid}}",
+  "searchPlaceholder": "Search sessions...",
+  "noSessions": "No sessions yet",
+  "noSessionsDesc": "Sessions are created when peers interact.",
+  "noSearchResults": "No sessions match \"{{query}}\"",
+  "view": "Session View",
+  "backToList": "Back to Sessions",
+  "info": {
+    "peer": "Peer: {{peer}}",
+    "messages": "{{count}} Messages",
+    "created": "Created: {{date}}"
+  },
+  "summary": "Summary",
+  "noMessages": "No messages yet",
+  "noMessagesDesc": "Send a message to start the conversation.",
+  "notFound": "Session not found",
+  "notFoundDesc": "It may have been deleted.",
+  "sendFailed": "Failed to send message",
+  "messagePlaceholder": "Type a message...",
+  "deleteConfirmTitle": "Delete Session",
+  "deleteConfirmDesc": "Delete \"{{id}}\"? This action cannot be undone."
+}

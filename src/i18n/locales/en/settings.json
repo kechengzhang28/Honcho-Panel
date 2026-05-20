@@ -1,0 +1,17 @@
+{
+  "title": "Settings",
+  "apiTitle": "Honcho API Configuration",
+  "apiDesc": "Configure the connection to your self-hosted Honcho server.",
+  "apiUrlLabel": "API URL",
+  "apiUrlPlaceholder": "http://localhost:8000",
+  "testConnection": "Test Connection",
+  "connected": "Connected to Honcho",
+  "disconnected": "Check that your Honcho server is running at {{url}}",
+  "languageTitle": "Language",
+  "languageDesc": "Choose your preferred language for the interface.",
+  "aboutTitle": "About",
+  "versionLabel": "Version",
+  "licenseLabel": "License",
+  "repositoryLabel": "Repository",
+  "openGitHub": "Open on GitHub"
+}

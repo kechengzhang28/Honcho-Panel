@@ -1,0 +1,35 @@
+{
+  "title": "Entities",
+  "workspace": "Workspace: {{wid}}",
+  "search": "Search entities...",
+  "noPeers": "No entities found",
+  "noPeersDesc": "Entities are created automatically when they send their first message.",
+  "noSearchResults": "No entities match \"{{query}}\"",
+  "noSearchResultsDesc": "Try a different search term.",
+  "detail": "Entity Detail",
+  "backToList": "Back to Peers",
+  "header": {
+    "sessions": "{{count}} Sessions",
+    "created": "Created {{date}}"
+  },
+  "tabs": {
+    "representation": "Representation",
+    "card": "Card",
+    "chat": "Chat"
+  },
+  "representation": {
+    "noRepresentation": "No representation yet",
+    "noRepresentationDesc": "The deriver processes messages in the background."
+  },
+  "card": {
+    "noCard": "No peer card yet",
+    "noCardDesc": "Peer cards are generated automatically by the deriver."
+  },
+  "chat": {
+    "placeholder": "Ask a question about this peer...",
+    "emptyTitle": "Ask a question about this peer",
+    "emptyDesc": "Honcho will search its memory and provide reasoning.",
+    "reasoningTimeout": "Reasoning is taking longer than expected",
+    "reasoningTimeoutDesc": "The deriver may be processing a large backlog."
+  }
+}

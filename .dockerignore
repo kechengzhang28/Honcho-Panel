@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.vite
+*.tsbuildinfo
+.env
+.env.local
+.trae
+docs/*.pen
+README.md
+LICENSE
+biome.json
