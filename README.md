@@ -17,21 +17,19 @@ A clean, zero-config management UI for self-hosted [Honcho](https://github.com/p
 
 ## Quick Start
 
-### Docker (recommended)
-
-Add to your existing Honcho `docker-compose.yml`:
-
-```yaml
-honcho-panel:
-  image: kechengzhang28/honcho-panel:latest
-  ports:
-    - "8080:80"
-```
+### Docker Compose (recommended)
 
 ```bash
+git clone <repo-url> honcho-panel
+cd honcho-panel
 docker compose up -d
-# Open http://localhost:8080 → enter your Honcho API URL → done
 ```
+
+Open `http://localhost:8080` → enter your Honcho API URL → done.
+
+To rebuild after pulling updates: `docker compose up -d --build`.
+
+> Also available as a pre-built image: `kechengzhang28/honcho-panel:latest` on Docker Hub.
 
 ### Static files
 

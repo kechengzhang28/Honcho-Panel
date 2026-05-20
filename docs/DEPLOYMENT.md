@@ -21,20 +21,38 @@ VITE_ALLOWED_HOSTS=<your-hostname-1>,<your-hostname-2>
 
 ### Option A: Docker Compose (recommended)
 
-Add to Honcho's existing `docker-compose.yml`:
+Repo includes a `docker-compose.yml` — just clone and run:
 
-```yaml
-honcho-panel:
-  image: kechengzhang28/honcho-panel:latest
-  ports:
-    - "8080:80"
+```bash
+git clone <repo-url> honcho-panel
+cd honcho-panel
+docker compose up -d
 ```
 
-Then: `docker compose up -d` → open `http://localhost:8080` → enter API URL → done.
+Open `http://localhost:8080` → enter your Honcho API URL → done.
+
+To rebuild after pulling changes:
+
+```bash
+docker compose up -d --build
+```
+
+#### Using the pre-built image
+
+If you prefer not to build locally, replace the `build: .` in `docker-compose.yml` with:
+
+```yaml
+image: kechengzhang28/honcho-panel:latest
+```
+
+#### API reverse proxy (optional, eliminates CORS)
+
+To avoid CORS issues between the Panel and your Honcho API, uncomment the `proxy_pass` lines in `nginx/default.conf` before building. Then the Panel can use a relative API URL (e.g. just `/v3`) since both services share the same origin.
 
 ### Option B: Static files
 
 ```bash
+npm install
 npm run build          # produces dist/
 # Serve dist/ with any HTTP server
 npx serve dist -l 8080
