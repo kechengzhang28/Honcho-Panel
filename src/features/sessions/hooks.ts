@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { getHoncho } from "@/lib/honcho";
 import { getErrorMessage } from "@/lib/utils";
@@ -53,12 +53,7 @@ export function useSessionContext(
   });
 }
 
-export function useMessageList(
-  workspaceId: string,
-  sessionId: string,
-  page: number,
-  size = 50,
-) {
+export function useMessageList(workspaceId: string, sessionId: string, page: number, size = 50) {
   return useQuery({
     queryKey: ["workspaces", workspaceId, "sessions", sessionId, "messages", { page, size }],
     queryFn: async () => {

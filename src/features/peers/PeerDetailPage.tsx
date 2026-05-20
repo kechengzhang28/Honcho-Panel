@@ -1,16 +1,16 @@
+import { CalendarDays, Clock, FileText, IdCard, Loader2, MessageCircle } from "lucide-react";
 import { useState } from "react";
-import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import { FileText, IdCard, MessageCircle, Clock, Loader2, CalendarDays } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useParams } from "react-router";
+import { BackLink } from "@/components/shared/BackLink";
+import { ChatMessage } from "@/components/shared/ChatMessage";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { MessageSkeleton, TextSkeleton } from "@/components/shared/Skeletons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ErrorState } from "@/components/shared/ErrorState";
-import { EmptyState } from "@/components/shared/EmptyState";
-import { ChatMessage } from "@/components/shared/ChatMessage";
-import { BackLink } from "@/components/shared/BackLink";
-import { TextSkeleton, MessageSkeleton } from "@/components/shared/Skeletons";
-import { usePeerRepr, usePeerCard, usePeerChat, usePeerDetail } from "./hooks";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { usePeerCard, usePeerChat, usePeerDetail, usePeerRepr } from "./hooks";
 
 export function PeerDetailPage() {
   const { wid = "default", pid = "" } = useParams();
@@ -56,7 +56,10 @@ function PeerHeader({ workspaceId, peerId }: { workspaceId: string; peerId: stri
   const { data: peer, isLoading } = usePeerDetail(workspaceId, peerId);
   const { t } = useTranslation("peers");
 
-  if (isLoading) return <div className="h-20 rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg-secondary)] animate-pulse" />;
+  if (isLoading)
+    return (
+      <div className="h-20 rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg-secondary)] animate-pulse" />
+    );
 
   const initials = (peerId || "?").slice(0, 2).toUpperCase();
 
@@ -112,19 +115,14 @@ function CardTab({ workspaceId, peerId }: { workspaceId: string; peerId: string 
   if (isLoading) return <TextSkeleton lines={5} />;
   if (isError) return <ErrorState error={error} onRetry={() => refetch()} />;
   if (!card || card.length === 0) {
-    return (
-      <EmptyState
-        icon={IdCard}
-        title={t("card.noCard")}
-        description={t("card.noCardDesc")}
-      />
-    );
+    return <EmptyState icon={IdCard} title={t("card.noCard")} description={t("card.noCardDesc")} />;
   }
 
   return (
     <div className="space-y-2">
       {card.map((item, i) => (
         <div
+          // biome-ignore lint/suspicious/noArrayIndexKey: static list
           key={i}
           className="rounded-[var(--radius-sm)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-4 text-sm text-[var(--color-text-primary)]"
         >
@@ -166,6 +164,7 @@ function ChatTab({ workspaceId, peerId }: { workspaceId: string; peerId: string 
       ) : (
         <div className="space-y-3">
           {messages.map((msg, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: messages have no stable id
             <ChatMessage key={i} role={msg.role} content={msg.content} />
           ))}
         </div>

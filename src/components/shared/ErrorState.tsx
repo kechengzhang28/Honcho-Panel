@@ -1,5 +1,5 @@
-import { AlertTriangle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getErrorMessage } from "@/lib/utils";
 
@@ -18,7 +18,9 @@ export function ErrorState({
   error,
   onRetry,
 }: ErrorStateProps) {
-  const msg = description ?? (error ? getErrorMessage(error) : "An unexpected error occurred. Please try again.");
+  const msg =
+    description ??
+    (error ? getErrorMessage(error) : "An unexpected error occurred. Please try again.");
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-20">

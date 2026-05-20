@@ -1,7 +1,14 @@
-import { useState, type ReactNode } from "react";
 import { AlertTriangle } from "lucide-react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { type ReactNode, useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface ConfirmDialogProps {
   title: string;
@@ -45,8 +52,12 @@ export function ConfirmDialog({
           </div>
         </DialogHeader>
         <div className="flex justify-end gap-3 mt-2">
-          <Button variant="outline" onClick={() => setOpen(false)}>{cancelLabel}</Button>
-          <Button variant={variant} onClick={handleConfirm}>{confirmLabel}</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            {cancelLabel}
+          </Button>
+          <Button variant={variant} onClick={handleConfirm}>
+            {confirmLabel}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

@@ -24,14 +24,22 @@ CardHeader.displayName = "CardHeader";
 
 const CardTitle = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("text-lg font-semibold text-[var(--color-text-primary)]", className)} {...props} />
+    <div
+      ref={ref}
+      className={cn("text-lg font-semibold text-[var(--color-text-primary)]", className)}
+      {...props}
+    />
   ),
 );
 CardTitle.displayName = "CardTitle";
 
 const CardDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("text-sm text-[var(--color-text-secondary)]", className)} {...props} />
+    <div
+      ref={ref}
+      className={cn("text-sm text-[var(--color-text-secondary)]", className)}
+      {...props}
+    />
   ),
 );
 CardDescription.displayName = "CardDescription";
@@ -43,4 +51,4 @@ const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
 );
 CardContent.displayName = "CardContent";
 
-export { Card, CardHeader, CardTitle, CardDescription, CardContent };
+export { Card, CardContent, CardDescription, CardHeader, CardTitle };

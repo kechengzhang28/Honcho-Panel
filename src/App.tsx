@@ -1,10 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { Shell } from "./components/layout/Shell";
-import { SettingsPage } from "./features/settings/SettingsPage";
-import { WorkspacePage } from "./features/workspaces/WorkspacePage";
+import { ErrorBoundary } from "./components/shared/ErrorBoundary";
 import { PeerDetailPage } from "./features/peers/PeerDetailPage";
 import { SessionViewPage } from "./features/sessions/SessionViewPage";
-import { ErrorBoundary } from "./components/shared/ErrorBoundary";
+import { SettingsPage } from "./features/settings/SettingsPage";
+import { WorkspacePage } from "./features/workspaces/WorkspacePage";
 
 export default function App() {
   return (

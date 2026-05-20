@@ -1,5 +1,5 @@
-import { Component } from "react";
 import { AlertTriangle } from "lucide-react";
+import { Component } from "react";
 import { Button } from "@/components/ui/button";
 
 interface ErrorBoundaryState {
@@ -7,10 +7,7 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<
-  { children: React.ReactNode },
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends Component<{ children: React.ReactNode }, ErrorBoundaryState> {
   constructor(props: { children: React.ReactNode }) {
     super(props);
     this.state = { hasError: false, error: null };

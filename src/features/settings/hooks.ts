@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { testConnection, configureApiUrl } from "@/lib/honcho";
+import { useCallback, useState } from "react";
+import { configureApiUrl, testConnection } from "@/lib/honcho";
 
 export function useApiUrl() {
   const [apiUrl, setApiUrl] = useState(() => {

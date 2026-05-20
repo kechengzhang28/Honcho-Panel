@@ -1,5 +1,5 @@
-import { type ChangeEvent, type KeyboardEvent } from "react";
-import { Search, type LucideIcon } from "lucide-react";
+import { type LucideIcon, Search } from "lucide-react";
+import type { ChangeEvent, KeyboardEvent } from "react";
 
 interface SearchBoxProps {
   value: string;

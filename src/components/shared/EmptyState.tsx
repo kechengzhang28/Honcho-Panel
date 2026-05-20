@@ -15,7 +15,9 @@ export function EmptyState({ icon: Icon, title, description, action }: EmptyStat
         <Icon className="h-6 w-6 text-[var(--color-text-muted)]" />
       </div>
       <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
-      <p className="max-w-sm text-center text-sm text-[var(--color-text-secondary)]">{description}</p>
+      <p className="max-w-sm text-center text-sm text-[var(--color-text-secondary)]">
+        {description}
+      </p>
       {action && (
         <Button variant="default" size="sm" onClick={action.onClick}>
           {action.label}

@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { useNavigate, useParams, Link } from "react-router";
-import { useTranslation } from "react-i18next";
 import { SearchX, Users } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate, useParams } from "react-router";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { SearchBox } from "@/components/shared/SearchBox";
+import { TableRowSkeleton } from "@/components/shared/Skeletons";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -11,10 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ErrorState } from "@/components/shared/ErrorState";
-import { EmptyState } from "@/components/shared/EmptyState";
-import { TableRowSkeleton } from "@/components/shared/Skeletons";
-import { SearchBox } from "@/components/shared/SearchBox";
 import { usePeerList } from "./hooks";
 
 export function PeerListPage() {
@@ -38,9 +38,7 @@ export function PeerListPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{t("title")}</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          {t("workspace", { wid })}
-        </p>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("workspace", { wid })}</p>
       </div>
 
       <SearchBox
@@ -79,7 +77,12 @@ export function PeerListPage() {
               {filtered.map((peer) => (
                 <TableRow key={peer.id}>
                   <TableCell className="font-mono text-sm">
-                    <Link to={`/workspaces/${wid}/peers/${peer.id}`} className="hover:text-[var(--color-primary)]">{peer.id}</Link>
+                    <Link
+                      to={`/workspaces/${wid}/peers/${peer.id}`}
+                      className="hover:text-[var(--color-primary)]"
+                    >
+                      {peer.id}
+                    </Link>
                   </TableCell>
                   <TableCell className="w-36 text-sm text-[var(--color-text-secondary)]">
                     {new Date(peer.createdAt ?? "").toLocaleDateString()}

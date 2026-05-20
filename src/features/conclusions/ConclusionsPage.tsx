@@ -1,14 +1,19 @@
-import { useState, useMemo } from "react";
-import { useParams } from "react-router";
+import { Check, ChevronDown, Lightbulb, SearchX, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Lightbulb, Trash2, ChevronDown, Check, SearchX } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ErrorState } from "@/components/shared/ErrorState";
-import { EmptyState } from "@/components/shared/EmptyState";
-import { TableRowSkeleton } from "@/components/shared/Skeletons";
-import { SearchBox } from "@/components/shared/SearchBox";
+import { useParams } from "react-router";
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { SearchBox } from "@/components/shared/SearchBox";
+import { TableRowSkeleton } from "@/components/shared/Skeletons";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useConclusionList, useDeleteConclusion } from "./hooks";
 
 export function ConclusionsPage() {
@@ -30,9 +35,7 @@ export function ConclusionsPage() {
   const displayConclusions = useMemo(() => {
     let filtered = conclusions;
     if (search) {
-      filtered = filtered.filter((c) =>
-        c.content?.toLowerCase().includes(search.toLowerCase()),
-      );
+      filtered = filtered.filter((c) => c.content?.toLowerCase().includes(search.toLowerCase()));
     }
     if (observedFilter) {
       filtered = filtered.filter((c) => c.observedId === observedFilter);
@@ -53,9 +56,7 @@ export function ConclusionsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{t("title")}</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          {t("workspace", { wid })}
-        </p>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("workspace", { wid })}</p>
       </div>
 
       <SearchBox
@@ -67,20 +68,27 @@ export function ConclusionsPage() {
       <div className="flex items-center justify-between">
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-2 rounded-[var(--radius-sm)] bg-[var(--color-bg-muted)] px-3 py-2 text-sm text-[var(--color-text-primary)]">
-            {observedFilter
-              ? `Observed: ${observedFilter}`
-              : t("filter.allPeers")}
+            {observedFilter ? `Observed: ${observedFilter}` : t("filter.allPeers")}
             <ChevronDown className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuItem onClick={() => setObservedFilter("")} className="flex items-center justify-between">
+            <DropdownMenuItem
+              onClick={() => setObservedFilter("")}
+              className="flex items-center justify-between"
+            >
               {t("filter.allPeers")}
               {!observedFilter && <Check className="h-4 w-4 text-[var(--color-primary)]" />}
             </DropdownMenuItem>
             {observedPeers.map((peer) => (
-              <DropdownMenuItem key={peer} onClick={() => setObservedFilter(peer)} className="flex items-center justify-between">
+              <DropdownMenuItem
+                key={peer}
+                onClick={() => setObservedFilter(peer)}
+                className="flex items-center justify-between"
+              >
                 {peer}
-                {observedFilter === peer && <Check className="h-4 w-4 text-[var(--color-primary)]" />}
+                {observedFilter === peer && (
+                  <Check className="h-4 w-4 text-[var(--color-primary)]" />
+                )}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
@@ -88,15 +96,23 @@ export function ConclusionsPage() {
 
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-2 rounded-[var(--radius-sm)] bg-[var(--color-bg-muted)] px-3 py-2 text-sm text-[var(--color-text-primary)]">
-            {t("filter.sort", { order: sortOrder === "newest" ? t("filter.newest") : t("filter.oldest") })}
+            {t("filter.sort", {
+              order: sortOrder === "newest" ? t("filter.newest") : t("filter.oldest"),
+            })}
             <ChevronDown className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setSortOrder("newest")} className="flex items-center justify-between">
+            <DropdownMenuItem
+              onClick={() => setSortOrder("newest")}
+              className="flex items-center justify-between"
+            >
               {t("filter.newest")}
               {sortOrder === "newest" && <Check className="h-4 w-4 text-[var(--color-primary)]" />}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setSortOrder("oldest")} className="flex items-center justify-between">
+            <DropdownMenuItem
+              onClick={() => setSortOrder("oldest")}
+              className="flex items-center justify-between"
+            >
               {t("filter.oldest")}
               {sortOrder === "oldest" && <Check className="h-4 w-4 text-[var(--color-primary)]" />}
             </DropdownMenuItem>
@@ -113,7 +129,11 @@ export function ConclusionsPage() {
       ) : search && displayConclusions.length === 0 ? (
         <EmptyState icon={SearchX} title={t("noSearchResults", { query: search })} description="" />
       ) : displayConclusions.length === 0 ? (
-        <EmptyState icon={Lightbulb} title={t("noConclusions")} description={t("noConclusionsDesc")} />
+        <EmptyState
+          icon={Lightbulb}
+          title={t("noConclusions")}
+          description={t("noConclusionsDesc")}
+        />
       ) : (
         <>
           <div className="space-y-3">

@@ -1,28 +1,28 @@
-import { useLocation, useNavigate, useParams, useSearchParams } from "react-router";
-import { useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import {
-  LayoutDashboard,
-  Users,
-  Calendar,
-  Lightbulb,
-  Settings,
   BrainCircuit,
-  ChevronDown,
+  Calendar,
   Check,
-  Loader2,
+  ChevronDown,
   Layers,
+  LayoutDashboard,
+  Lightbulb,
+  Loader2,
+  Settings,
+  Users,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useWorkspaceList } from "@/features/workspaces/hooks";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { tab: "overview", icon: LayoutDashboard, key: "overview" as const },
@@ -40,7 +40,10 @@ export function Sidebar() {
   const prevWid = useRef(wid);
   const { t } = useTranslation("common");
 
-  const currentTab = searchParams.get("tab") ?? location.pathname.match(/\/(peers|sessions|conclusions)\//)?.[1] ?? "overview";
+  const currentTab =
+    searchParams.get("tab") ??
+    location.pathname.match(/\/(peers|sessions|conclusions)\//)?.[1] ??
+    "overview";
   const isWorkspaceRoute = location.pathname.startsWith("/workspaces");
 
   const { data: workspaces, isLoading: loadingWorkspaces } = useWorkspaceList();
@@ -58,7 +61,9 @@ export function Sidebar() {
     <aside className="flex w-60 flex-col border-r border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
       <div className="flex h-14 items-center gap-2 border-b-2 border-[var(--color-border-light)] px-4">
         <BrainCircuit className="h-6 w-6 text-[var(--color-primary)]" />
-        <span className="text-lg font-semibold text-[var(--color-text-primary)]">{t("sidebar.brand")}</span>
+        <span className="text-lg font-semibold text-[var(--color-text-primary)]">
+          {t("sidebar.brand")}
+        </span>
       </div>
 
       <div className="p-3">

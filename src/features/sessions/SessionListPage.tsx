@@ -1,7 +1,13 @@
-import { useState } from "react";
-import { useNavigate, useParams, Link } from "react-router";
-import { useTranslation } from "react-i18next";
 import { Calendar, SearchX, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate, useParams } from "react-router";
+import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { SearchBox } from "@/components/shared/SearchBox";
+import { TableRowSkeleton } from "@/components/shared/Skeletons";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -11,13 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { ErrorState } from "@/components/shared/ErrorState";
-import { EmptyState } from "@/components/shared/EmptyState";
-import { TableRowSkeleton } from "@/components/shared/Skeletons";
-import { SearchBox } from "@/components/shared/SearchBox";
-import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
-import { useSessionList, useDeleteSession } from "./hooks";
+import { useDeleteSession, useSessionList } from "./hooks";
 
 export function SessionListPage() {
   const { wid = "default" } = useParams();
@@ -41,9 +41,7 @@ export function SessionListPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{t("title")}</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          {t("workspace", { wid })}
-        </p>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("workspace", { wid })}</p>
       </div>
 
       <SearchBox
@@ -60,7 +58,11 @@ export function SessionListPage() {
         <ErrorState error={error} onRetry={() => refetch()} />
       ) : filtered.length === 0 ? (
         search ? (
-          <EmptyState icon={SearchX} title={t("noSearchResults", { query: search })} description="" />
+          <EmptyState
+            icon={SearchX}
+            title={t("noSearchResults", { query: search })}
+            description=""
+          />
         ) : (
           <EmptyState icon={Calendar} title={t("noSessions")} description={t("noSessionsDesc")} />
         )
@@ -79,14 +81,19 @@ export function SessionListPage() {
               {filtered.map((s) => (
                 <TableRow key={s.id}>
                   <TableCell className="font-mono text-sm">
-                    <Link to={`/workspaces/${wid}/sessions/${s.id}`} className="hover:text-[var(--color-primary)]">{s.id}</Link>
+                    <Link
+                      to={`/workspaces/${wid}/sessions/${s.id}`}
+                      className="hover:text-[var(--color-primary)]"
+                    >
+                      {s.id}
+                    </Link>
                   </TableCell>
                   <TableCell className="w-36 text-sm text-[var(--color-text-secondary)]">
                     {new Date(s.createdAt ?? "").toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-center">
-                    <Badge variant={s.isActive ?? false ? "success" : "secondary"}>
-                      {s.isActive ?? false ? tc("status.active") : tc("status.inactive")}
+                    <Badge variant={(s.isActive ?? false) ? "success" : "secondary"}>
+                      {(s.isActive ?? false) ? tc("status.active") : tc("status.inactive")}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-center">

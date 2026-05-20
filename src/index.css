@@ -4,20 +4,20 @@
   --font-sans: "Inter", ui-sans-serif, system-ui;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-primary: #3B82F6;
-  --color-primary-hover: #2563EB;
-  --color-primary-light: #EFF6FF;
-  --color-bg: #FFFFFF;
-  --color-bg-secondary: #FAFAFA;
-  --color-bg-muted: #F4F4F5;
-  --color-text-primary: #18181B;
-  --color-text-secondary: #71717A;
-  --color-text-muted: #A1A1AA;
-  --color-border: #E4E4E7;
-  --color-border-light: #F4F4F5;
-  --color-destructive: #EF4444;
-  --color-success: #22C55E;
-  --color-warning: #F59E0B;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-light: #eff6ff;
+  --color-bg: #ffffff;
+  --color-bg-secondary: #fafafa;
+  --color-bg-muted: #f4f4f5;
+  --color-text-primary: #18181b;
+  --color-text-secondary: #71717a;
+  --color-text-muted: #a1a1aa;
+  --color-border: #e4e4e7;
+  --color-border-light: #f4f4f5;
+  --color-destructive: #ef4444;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
 
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -31,7 +31,9 @@ body {
   background-color: var(--color-bg-secondary);
 }
 
-button, [role="button"], a {
+button,
+[role="button"],
+a {
   cursor: pointer;
 }
 

@@ -1,13 +1,13 @@
-import { useParams, Link } from "react-router";
+import { Calendar, Clock, MessageSquare, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Users, MessageSquare, Clock, Calendar } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ErrorState } from "@/components/shared/ErrorState";
+import { Link, useParams } from "react-router";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { ErrorState } from "@/components/shared/ErrorState";
 import { StatCardSkeleton, TableRowSkeleton } from "@/components/shared/Skeletons";
-import { useQueueStatus } from "./hooks";
-import { useSessionList } from "@/features/sessions/hooks";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePeerList } from "@/features/peers/hooks";
+import { useSessionList } from "@/features/sessions/hooks";
+import { useQueueStatus } from "./hooks";
 
 export function OverviewPage() {
   const { wid = "default" } = useParams();
@@ -17,9 +17,7 @@ export function OverviewPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">{t("title")}</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          {t("workspace", { wid })}
-        </p>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{t("workspace", { wid })}</p>
       </div>
 
       <WorkspaceStats workspaceId={wid} />
@@ -74,7 +72,9 @@ function WorkspaceStats({ workspaceId }: { workspaceId: string }) {
                 <stat.icon className="h-4 w-4" />
                 {stat.label}
               </div>
-              <div className="text-[28px] font-bold text-[var(--color-text-primary)]">{stat.value}</div>
+              <div className="text-[28px] font-bold text-[var(--color-text-primary)]">
+                {stat.value}
+              </div>
               <div className="text-[13px] text-[var(--color-text-muted)]">{stat.desc}</div>
             </div>
           </CardContent>
@@ -91,8 +91,12 @@ function QueueDetailPanel({ workspaceId }: { workspaceId: string }) {
   if (isLoading) {
     return (
       <Card>
-        <CardHeader><CardTitle>{t("queueStatus")}</CardTitle></CardHeader>
-        <CardContent><StatCardSkeleton /></CardContent>
+        <CardHeader>
+          <CardTitle>{t("queueStatus")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <StatCardSkeleton />
+        </CardContent>
       </Card>
     );
   }
@@ -104,10 +108,26 @@ function QueueDetailPanel({ workspaceId }: { workspaceId: string }) {
   if (!queue) return null;
 
   const rows = [
-    { label: t("queue.total"), value: queue.totalWorkUnits, color: "text-[var(--color-text-primary)]" },
-    { label: t("queue.completed"), value: queue.completedWorkUnits, color: "text-[var(--color-success)]" },
-    { label: t("queue.processing"), value: queue.inProgressWorkUnits, color: "text-[var(--color-warning)]" },
-    { label: t("queue.pending"), value: queue.pendingWorkUnits, color: "text-[var(--color-primary)]" },
+    {
+      label: t("queue.total"),
+      value: queue.totalWorkUnits,
+      color: "text-[var(--color-text-primary)]",
+    },
+    {
+      label: t("queue.completed"),
+      value: queue.completedWorkUnits,
+      color: "text-[var(--color-success)]",
+    },
+    {
+      label: t("queue.processing"),
+      value: queue.inProgressWorkUnits,
+      color: "text-[var(--color-warning)]",
+    },
+    {
+      label: t("queue.pending"),
+      value: queue.pendingWorkUnits,
+      color: "text-[var(--color-primary)]",
+    },
   ];
 
   return (
@@ -151,7 +171,12 @@ function RecentSessions({ workspaceId }: { workspaceId: string }) {
           <div className="space-y-3">
             {sessions.map((s) => (
               <div key={s.id} className="flex items-center justify-between">
-                <Link to={`/workspaces/${workspaceId}/sessions/${s.id}`} className="text-sm font-mono hover:text-[var(--color-primary)]">{s.id}</Link>
+                <Link
+                  to={`/workspaces/${workspaceId}/sessions/${s.id}`}
+                  className="text-sm font-mono hover:text-[var(--color-primary)]"
+                >
+                  {s.id}
+                </Link>
                 <span className="text-sm text-[var(--color-text-muted)]">
                   {formatRelativeTime(s.createdAt)}
                 </span>

@@ -1,12 +1,12 @@
-import { useParams } from "react-router";
+import { Calendar, FileQuestion, MessageSquare, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { FileQuestion, MessageSquare, User, Calendar } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ErrorState } from "@/components/shared/ErrorState";
-import { EmptyState } from "@/components/shared/EmptyState";
-import { ChatMessage } from "@/components/shared/ChatMessage";
+import { useParams } from "react-router";
 import { BackLink } from "@/components/shared/BackLink";
+import { ChatMessage } from "@/components/shared/ChatMessage";
+import { EmptyState } from "@/components/shared/EmptyState";
+import { ErrorState } from "@/components/shared/ErrorState";
 import { MessageSkeleton } from "@/components/shared/Skeletons";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSessionContext } from "./hooks";
 
 export function SessionViewPage() {
@@ -67,9 +67,7 @@ export function SessionViewPage() {
             <CardTitle className="text-base">{t("summary")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-[var(--color-text-secondary)]">
-              {context.summary.content}
-            </p>
+            <p className="text-sm text-[var(--color-text-secondary)]">{context.summary.content}</p>
           </CardContent>
         </Card>
       )}
@@ -84,6 +82,7 @@ export function SessionViewPage() {
         ) : (
           messages.map((msg, i) => (
             <ChatMessage
+              // biome-ignore lint/suspicious/noArrayIndexKey: messages have no stable id
               key={i}
               role={msg.peerId === firstPeerId ? "user" : "assistant"}
               content={msg.content}

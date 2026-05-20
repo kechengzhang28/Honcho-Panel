@@ -1,8 +1,8 @@
 import { useSearchParams } from "react-router";
-import { OverviewPage } from "@/features/workspaces/OverviewPage";
+import { ConclusionsPage } from "@/features/conclusions/ConclusionsPage";
 import { PeerListPage } from "@/features/peers/PeerListPage";
 import { SessionListPage } from "@/features/sessions/SessionListPage";
-import { ConclusionsPage } from "@/features/conclusions/ConclusionsPage";
+import { OverviewPage } from "@/features/workspaces/OverviewPage";
 
 export function WorkspacePage() {
   const [searchParams] = useSearchParams();

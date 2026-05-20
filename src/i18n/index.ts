@@ -1,17 +1,17 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import { initReactI18next } from "react-i18next";
 import common_en from "./locales/en/common.json";
+import conclusions_en from "./locales/en/conclusions.json";
 import overview_en from "./locales/en/overview.json";
 import peers_en from "./locales/en/peers.json";
 import sessions_en from "./locales/en/sessions.json";
-import conclusions_en from "./locales/en/conclusions.json";
 import settings_en from "./locales/en/settings.json";
 import common_zh from "./locales/zh-CN/common.json";
+import conclusions_zh from "./locales/zh-CN/conclusions.json";
 import overview_zh from "./locales/zh-CN/overview.json";
 import peers_zh from "./locales/zh-CN/peers.json";
 import sessions_zh from "./locales/zh-CN/sessions.json";
-import conclusions_zh from "./locales/zh-CN/conclusions.json";
 import settings_zh from "./locales/zh-CN/settings.json";
 
 i18n

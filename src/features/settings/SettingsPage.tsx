@@ -1,18 +1,18 @@
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { Check, ChevronDown, ExternalLink, Globe, Link2, Loader2 } from "lucide-react";
 import { useEffect } from "react";
-import { Loader2, Globe, ChevronDown, Check, Link2, ExternalLink } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import i18n from "@/i18n";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import i18n from "@/i18n";
 import { cn } from "@/lib/utils";
 import { useApiUrl, useConnectionTest } from "./hooks";
 
@@ -60,16 +60,24 @@ export function SettingsPage() {
 
       <div className="rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-6 space-y-5">
         <div>
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("apiTitle")}</h2>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+            {t("apiTitle")}
+          </h2>
           <p className="text-sm text-[var(--color-text-secondary)]">{t("apiDesc")}</p>
         </div>
 
         <form onSubmit={handleSubmit(onSave)} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-[var(--color-text-primary)]">{t("apiUrlLabel")}</label>
+            <label
+              htmlFor="api-url"
+              className="text-sm font-medium text-[var(--color-text-primary)]"
+            >
+              {t("apiUrlLabel")}
+            </label>
             <div className="relative">
               <Link2 className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-muted)]" />
               <Input
+                id="api-url"
                 {...register("url")}
                 placeholder={t("apiUrlPlaceholder")}
                 className="pl-10 font-mono text-sm"
@@ -89,20 +97,13 @@ export function SettingsPage() {
                 )}
               />
               <span className="text-sm text-[var(--color-text-secondary)]">
-                {isConnected
-                  ? t("connected")
-                  : t("disconnected", { url: currentUrl })}
+                {isConnected ? t("connected") : t("disconnected", { url: currentUrl })}
               </span>
             </div>
           )}
 
           <div className="flex items-center gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onTest}
-              disabled={isTesting}
-            >
+            <Button type="button" variant="outline" onClick={onTest} disabled={isTesting}>
               {isTesting && <Loader2 className="h-4 w-4 animate-spin" />}
               {tc("button.test")}
             </Button>
@@ -113,14 +114,18 @@ export function SettingsPage() {
 
       <div className="rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-6 space-y-5">
         <div>
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("languageTitle")}</h2>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+            {t("languageTitle")}
+          </h2>
           <p className="text-sm text-[var(--color-text-secondary)]">{t("languageDesc")}</p>
         </div>
         <LanguageSwitcher />
       </div>
 
       <div className="rounded-[var(--radius-md)] border border-[var(--color-border-light)] bg-[var(--color-bg)] p-6 space-y-3">
-        <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("aboutTitle")}</h2>
+        <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+          {t("aboutTitle")}
+        </h2>
         <div className="flex items-center justify-between">
           <span className="text-sm text-[var(--color-text-secondary)]">{t("versionLabel")}</span>
           <span className="text-sm text-[var(--color-text-primary)]">{__APP_VERSION__}</span>
@@ -131,7 +136,12 @@ export function SettingsPage() {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-sm text-[var(--color-text-secondary)]">{t("repositoryLabel")}</span>
-          <a href="https://github.com/kechengzhang28/Honcho-Panel" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-[var(--color-primary)] hover:underline">
+          <a
+            href="https://github.com/kechengzhang28/Honcho-Panel"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-sm text-[var(--color-primary)] hover:underline"
+          >
             {t("openGitHub")}
             <ExternalLink className="h-3.5 w-3.5" />
           </a>
@@ -149,7 +159,8 @@ const languages = [
 function LanguageSwitcher() {
   const current = i18n.language;
 
-  const activeLang = languages.find((l) => l.code === (current === "zh-CN" ? "zh-CN" : "en")) ?? languages[0];
+  const activeLang =
+    languages.find((l) => l.code === (current === "zh-CN" ? "zh-CN" : "en")) ?? languages[0];
 
   const handleChange = (code: string) => {
     i18n.changeLanguage(code);
