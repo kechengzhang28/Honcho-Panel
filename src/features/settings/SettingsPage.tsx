@@ -123,7 +123,7 @@ export function SettingsPage() {
         <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{t("aboutTitle")}</h2>
         <div className="flex items-center justify-between">
           <span className="text-sm text-[var(--color-text-secondary)]">{t("versionLabel")}</span>
-          <span className="text-sm text-[var(--color-text-primary)]">0.1.0</span>
+          <span className="text-sm text-[var(--color-text-primary)]">{__APP_VERSION__}</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-sm text-[var(--color-text-secondary)]">{t("licenseLabel")}</span>

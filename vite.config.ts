@@ -15,21 +15,7 @@ export default defineConfig(({ mode }) => {
     define: {
       // @honcho-ai/sdk 在浏览器中引用 process.env，需要 polyfill
       "process.env": JSON.stringify({}),
-    },
-    server: {
-      port: 5173,
-      host: true,
-      allowedHosts,
-      proxy: {
-        "/health": {
-          target: proxyTarget,
-          changeOrigin: true,
-        },
-        "/v3": {
-          target: proxyTarget,
-          changeOrigin: true,
-        },
-      },
+      __APP_VERSION__: JSON.stringify(process.env.npm_package_version || "0.0.0"),
     },
   };
 });
