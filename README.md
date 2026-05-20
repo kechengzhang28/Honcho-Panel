@@ -29,7 +29,6 @@ Open `http://localhost:8080` → enter your Honcho API URL → done.
 
 To rebuild after pulling updates: `docker compose up -d --build`.
 
-> Also available as a pre-built image: `kechengzhang28/honcho-panel:latest` on Docker Hub.
 
 ### Static files
 

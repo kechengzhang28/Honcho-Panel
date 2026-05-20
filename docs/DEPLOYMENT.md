@@ -37,13 +37,6 @@ To rebuild after pulling changes:
 docker compose up -d --build
 ```
 
-#### Using the pre-built image
-
-If you prefer not to build locally, replace the `build: .` in `docker-compose.yml` with:
-
-```yaml
-image: kechengzhang28/honcho-panel:latest
-```
 
 #### API reverse proxy (optional, eliminates CORS)
 
